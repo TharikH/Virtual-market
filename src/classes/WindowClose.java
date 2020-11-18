@@ -3,20 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package virtual.market;
-import Frames.*;
+package classes;
+
+import Frames.LoginPage;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
 /**
  *
  * @author tharikh
  */
-public class VirtualMarket {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
+public class WindowClose extends WindowAdapter{
+    public void windowClosed(WindowEvent e){
         new LoginPage().setVisible(true);
     }
-    
 }
