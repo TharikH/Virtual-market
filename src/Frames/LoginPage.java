@@ -5,6 +5,8 @@
  */
 package Frames;
 
+import classes.WindowClose;
+
 /**
  *
  * @author aswin
@@ -17,7 +19,20 @@ public class LoginPage extends javax.swing.JFrame {
     public LoginPage() {
         initComponents();
     }
-
+    private void gotoLogin(String name){
+        try{
+        SignIn login = new SignIn(name);
+        login.setVisible(true);
+        login.pack();
+        login.setLocationRelativeTo(null);
+//        login.addWindowListener(new WindowClose());
+        login.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        this.dispose();
+        }
+        catch(Exception e){
+            System.out.print("An error occured while creating new page");
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -27,67 +42,88 @@ public class LoginPage extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        vendorBtn = new javax.swing.JButton();
-        clientBtn = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        vendorbutton = new javax.swing.JButton();
+        buyerbutton = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        vendorBtn.setText("Vendor");
-        vendorBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                vendorBtnMouseClicked(evt);
-            }
-        });
-        vendorBtn.addActionListener(new java.awt.event.ActionListener() {
+        jPanel1.setBackground(new java.awt.Color(40, 116, 240));
+
+        vendorbutton.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        vendorbutton.setForeground(new java.awt.Color(1, 1, 1));
+        vendorbutton.setText("VENDOR");
+        vendorbutton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        vendorbutton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                vendorBtnActionPerformed(evt);
+                vendorbuttonActionPerformed(evt);
             }
         });
 
-        clientBtn.setText("Client");
-        clientBtn.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                clientBtnMouseClicked(evt);
+        buyerbutton.setFont(new java.awt.Font("Ubuntu", 1, 24)); // NOI18N
+        buyerbutton.setForeground(new java.awt.Color(1, 1, 1));
+        buyerbutton.setText("BUYER");
+        buyerbutton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        buyerbutton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buyerbuttonActionPerformed(evt);
             }
         });
+
+        jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(1, 1, 1));
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setText("VIRTUAL MARKET");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(75, 75, 75)
+                .addComponent(vendorbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
+                .addComponent(buyerbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(95, 95, 95))
+            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(35, 35, 35)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(77, 77, 77)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(vendorbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buyerbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(118, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(49, 49, 49)
-                .addComponent(vendorBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 139, Short.MAX_VALUE)
-                .addComponent(clientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(63, 63, 63))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(124, 124, 124)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(clientBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(vendorBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(143, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void vendorBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_vendorBtnMouseClicked
+    private void vendorbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vendorbuttonActionPerformed
         // TODO add your handling code here:
-        new SignIn("vendor").setVisible(true);
-    }//GEN-LAST:event_vendorBtnMouseClicked
+        gotoLogin("vendor");
+        
+    }//GEN-LAST:event_vendorbuttonActionPerformed
 
-    private void clientBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_clientBtnMouseClicked
+    private void buyerbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buyerbuttonActionPerformed
         // TODO add your handling code here:
-        new SignIn("client").setVisible(true);
-    }//GEN-LAST:event_clientBtnMouseClicked
-
-    private void vendorBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vendorBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_vendorBtnActionPerformed
+        gotoLogin("buyer");
+    }//GEN-LAST:event_buyerbuttonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -125,7 +161,9 @@ public class LoginPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton clientBtn;
-    private javax.swing.JButton vendorBtn;
+    private javax.swing.JButton buyerbutton;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton vendorbutton;
     // End of variables declaration//GEN-END:variables
 }
