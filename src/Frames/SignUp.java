@@ -6,6 +6,10 @@
 package Frames;
 
 import classes.WindowClose;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import virtual.market.DbConnect;
+import java.sql.*;
 
 /**
  *
@@ -17,16 +21,45 @@ public class SignUp extends javax.swing.JFrame {
      * Creates new form SignUp
      */
     private String type;
-    String id[]={"---","Aadhar","Pan-card","Voter Id","Passport","Driving liscence"};
+    String id[] = {"---", "Aadhar", "Pan-card", "Voter Id", "Passport", "Driving liscence"};
+
     public SignUp() {
         initComponents();
         idarray.setModel(new javax.swing.DefaultComboBoxModel(id));
     }
-    public SignUp(String name){
+
+    public SignUp(String name) {
         this();
-        this.type=name;
-        signuptext.setText(name);
+        this.type = name;
+        signuptext.setText(name.toUpperCase());
     }
+
+    private boolean isValidEmail(String email) {
+        Pattern VALID_EMAIL_ADDRESS_REGEX
+                = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
+        return matcher.find();
+    }
+
+    private boolean isValidName(String name) {
+        return !name.equals("");
+    }
+
+    private boolean isValidPassword(String password) {
+        String pattern = "(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}";
+        return password.matches(pattern);
+    }
+
+    private boolean isValidId(String id) {
+        String regex = "[0-9]+";
+        return id.matches(regex) && id.length() > 10;
+    }
+
+    private boolean isValidPhone(String number) {
+        String regex = "[0-9]+";
+        return number.matches(regex) && number.length() == 10;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -55,6 +88,7 @@ public class SignUp extends javax.swing.JFrame {
         idnumber = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        errorlabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -157,11 +191,18 @@ public class SignUp extends javax.swing.JFrame {
             }
         });
 
+        errorlabel.setFont(new java.awt.Font("Ubuntu", 3, 18)); // NOI18N
+        errorlabel.setForeground(new java.awt.Color(255, 0, 0));
+        errorlabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(signuptext, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(376, 376, 376)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -190,9 +231,7 @@ public class SignUp extends javax.swing.JFrame {
                     .addComponent(name, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(password, javax.swing.GroupLayout.PREFERRED_SIZE, 297, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(147, 147, 147))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(errorlabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -235,7 +274,9 @@ public class SignUp extends javax.swing.JFrame {
                     .addComponent(idnumber, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(124, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(errorlabel, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(73, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -271,22 +312,86 @@ public class SignUp extends javax.swing.JFrame {
     }//GEN-LAST:event_passwordActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        String error = "";
+        String emailtext = email.getText(),
+                phonetext = number.getText(),
+                pass = new String(password.getPassword()),
+                conf = new String(confirm_password.getPassword()),
+                id = idnumber.getText(),
+                nametext = name.getText();
+        if (!isValidName(nametext)) {
+            error = "please provide a name";
+        } else if (!isValidEmail(emailtext)) {
+            error = "please provide correct email";
+        } else if (!isValidPhone(phonetext)) {
+            error = "please provide valid number";
+        } else if (!isValidPassword(pass)) {
+            error = "password must be atleast 1 digit,1 uppercase,1 lowercase,1 special_char ,no white space atleast 8 char";
+        } else if (!pass.equals(conf)) {
+            error = "password doesnt match";
+        } else if (!isValidId(id)) {
+            error = "please provide valid id";
+        } else {
+            
+            String sql = "insert into user values(null,?,?,?,?,?,?,?,0)";
+            try {
+                Connection con = new DbConnect().connect();
+                PreparedStatement stm = con.prepareStatement(sql);
+                stm.setString(1, nametext);
+                stm.setString(2, pass);
+                stm.setString(3, emailtext);
+                stm.setString(4, (String) this.idarray.getSelectedItem());
+                stm.setString(5, id);
+                stm.setString(6, phonetext);
+                stm.setString(7, type.equalsIgnoreCase("vendor") ? "s" : "c");
+                if(stm.executeUpdate() >0){
+                    System.out.println("Success");
+                    con.close();
+                SignIn login = new SignIn(type);
+                login.setVisible(true);
+                login.pack();
+                login.setLocationRelativeTo(null);
+//        login.addWindowListener(new WindowClose());
+                login.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+                this.dispose();
+                }
+                else{
+                    error="Server error";
+                }
+                //next page
+                con.close();
+                SignIn login = new SignIn(type);
+                login.setVisible(true);
+                login.pack();
+                login.setLocationRelativeTo(null);
+//        login.addWindowListener(new WindowClose());
+                login.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+                this.dispose();
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+//        System.out.println(pass);
+        errorlabel.setText(error);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void idarrayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idarrayActionPerformed
         // TODO add your handling code here:
-        boolean dis=false;
-        if(!idarray.getSelectedItem().equals("---")){
-            dis=true;
+        boolean dis = false;
+        if (!idarray.getSelectedItem().equals("---")) {
+            dis = true;
+        } else {
+            dis = false;
         }
+        idnumber.setText("");
         idnumber.setEnabled(dis);
         uniquenumbertext.setEnabled(dis);
     }//GEN-LAST:event_idarrayActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        SignIn login=new SignIn(type);
+        SignIn login = new SignIn(type);
         login.setVisible(true);
         login.pack();
         login.setLocationRelativeTo(null);
@@ -333,6 +438,7 @@ public class SignUp extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPasswordField confirm_password;
     private javax.swing.JTextField email;
+    private javax.swing.JLabel errorlabel;
     private javax.swing.JComboBox<String> idarray;
     private javax.swing.JTextField idnumber;
     private javax.swing.JButton jButton1;
