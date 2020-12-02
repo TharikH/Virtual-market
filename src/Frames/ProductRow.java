@@ -12,10 +12,14 @@ import java.awt.event.ActionEvent;
  * @author aswin
  */
 public class ProductRow extends javax.swing.JPanel{
-    public ProductRow(){
-     initComponents();
+    public ProductRow(StockPage parent,int index,String name,String cat,String stock,String sell){
+     initComponents(name,cat,stock,sell);
+     this.parent=parent;
+     this.index=index;
     }
     //Variable Declaration
+    private int index;
+    private StockPage parent;
      private javax.swing.JLabel prodCat;
     private javax.swing.JLabel prodName;
     private javax.swing.JLabel prodPrice;
@@ -27,8 +31,9 @@ public class ProductRow extends javax.swing.JPanel{
     // End of variables declaration 
     
     //Component initialisation
-    private void initComponents(){
+    private void initComponents(String name,String cat,String stock,String sell){
         //productRow = new javax.swing.JPanel();
+        
         prodName = new javax.swing.JLabel();
         prodCat = new javax.swing.JLabel();
         prodStock = new javax.swing.JLabel();
@@ -36,17 +41,18 @@ public class ProductRow extends javax.swing.JPanel{
         prodUpdateBtn = new javax.swing.JButton();
       setBackground(new java.awt.Color(204, 195, 187));
 
-        prodName.setText("<name>");
+        prodName.setText(name);
 
-        prodCat.setText("<category>");
+        prodCat.setText(cat);
 
-        prodStock.setText("<no.of stock>");
+        prodStock.setText(stock);
 
-        prodPrice.setText("<price>");
+        prodPrice.setText(sell);
 
         prodUpdateBtn.setText("Edit");
         prodUpdateBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+                parent.setEdit(index);
                 //prodUpdateBtnActionPerformed(evt);
             }         
         });
@@ -77,4 +83,9 @@ public class ProductRow extends javax.swing.JPanel{
                 .addComponent(prodUpdateBtn))
         );
     }
+
+
 }
+        
+    
+
