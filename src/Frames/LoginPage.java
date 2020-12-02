@@ -6,6 +6,9 @@
 package Frames;
 
 import classes.WindowClose;
+import java.sql.Connection;
+import java.sql.SQLException;
+import virtual.market.DbConnect;
 
 /**
  *
@@ -16,8 +19,8 @@ public class LoginPage extends javax.swing.JFrame {
     /**
      * Creates new form LoginPage
      */
-    public LoginPage() {
-        initComponents();
+    public LoginPage(){
+        initComponents();        
     }
     private void gotoLogin(String name){
         try{
