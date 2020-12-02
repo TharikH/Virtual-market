@@ -8,7 +8,11 @@ package Frames;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import static java.time.temporal.TemporalAdjusters.next;
 import java.util.ArrayList;
 import java.util.Random;
@@ -20,7 +24,7 @@ import virtual.market.DbConnect;
  *
  * @author tharikh
  */
-public class CustomerProfile extends javax.swing.JFrame {
+public class CustomerProfile extends javax.swing.JFrame implements ActionListener{
 
     /**
      * Creates new form CustomerProfile
@@ -59,7 +63,12 @@ public class CustomerProfile extends javax.swing.JFrame {
         for(String x:s){
             JPanel jp=new JPanel();
             JLabel jl=new JLabel(x);
-            JButton jb=new JButton(x);
+            JButton jb=new JButton("Buy now");
+            jl.setPreferredSize(new Dimension(400,200));
+            jb.setPreferredSize(new Dimension(100,50));
+            jb.setActionCommand("hello "+x);
+            jb.addActionListener(this);
+            jb.setCursor(new Cursor(12));
             jp.add(jl);
             jp.add(jb);
 //            jp.setBorder(blackline);
@@ -69,12 +78,15 @@ public class CustomerProfile extends javax.swing.JFrame {
         int i=30;
         for(Object j:arr){
             but=(JPanel)j;
-            but.setBounds(10,i,805,100);
+            but.setBounds(10,i,805,200);
 //            but.setBorder(blackline);
-            i+=115;
+            i+=215;
             customerpanel.add(but);
         }
         customerpanel.setPreferredSize(new Dimension(805,i));
+    }
+    public void actionPerformed(ActionEvent evt){
+        System.out.println(evt.getActionCommand());
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -174,6 +186,7 @@ public class CustomerProfile extends javax.swing.JFrame {
         });
 
         jButton5.setText("WISHLIST");
+        jButton5.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         jButton6.setText("SETTINGS");
 
@@ -184,8 +197,7 @@ public class CustomerProfile extends javax.swing.JFrame {
             }
         });
 
-        jButton8.setBackground(new java.awt.Color(0, 255, 154));
-        jButton8.setText("HOME");
+        jButton8.setText("SHOP");
         jButton8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton8ActionPerformed(evt);
@@ -359,4 +371,5 @@ public class CustomerProfile extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JLabel name;
     // End of variables declaration//GEN-END:variables
+
 }
