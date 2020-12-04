@@ -5,19 +5,35 @@
  */
 package Frames;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import virtual.market.DbConnect;
+
 /**
  *
  * @author aswin
  */
 public class VendorProfile extends javax.swing.JFrame {
-
+    String id,uId,place,name,state,pin,storeName,district,email,contact,document,shopId;
     /**
      * Creates new form VendorProfile
      */
     public VendorProfile() {
         initComponents();
     }
-
+     public VendorProfile(String id) {
+        this.id=id;
+        try{
+            fillLabels();
+        }
+        catch(SQLException e){
+            System.out.print("Some Connection error");
+            System.out.print(id);
+        }
+        initComponents();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -29,12 +45,10 @@ public class VendorProfile extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         nameLabel = new javax.swing.JLabel();
-        idLabel = new javax.swing.JLabel();
         addrLabel = new javax.swing.JLabel();
         contactLabel = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         nameTField = new javax.swing.JTextField();
-        idTField = new javax.swing.JTextField();
         stateTField = new javax.swing.JTextField();
         mailTField = new javax.swing.JTextField();
         resetBtn = new javax.swing.JButton();
@@ -51,12 +65,12 @@ public class VendorProfile extends javax.swing.JFrame {
         contactTField = new javax.swing.JTextField();
         vendorIdLabel = new javax.swing.JLabel();
         shopIdLabel = new javax.swing.JLabel();
+        documentLabel = new javax.swing.JLabel();
+        documentTField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         nameLabel.setText("Vendor Name     :");
-
-        idLabel.setText("Id              :");
 
         addrLabel.setText("Shop Address:");
 
@@ -64,17 +78,21 @@ public class VendorProfile extends javax.swing.JFrame {
 
         jLabel5.setText("Email :");
 
+        nameTField.setText(name);
         nameTField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 nameTFieldActionPerformed(evt);
             }
         });
 
+        stateTField.setText(state);
         stateTField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stateTFieldActionPerformed(evt);
             }
         });
+
+        mailTField.setText(email);
 
         resetBtn.setText("Reset");
 
@@ -86,19 +104,32 @@ public class VendorProfile extends javax.swing.JFrame {
 
         shopAddr1.setText("Shop Name :");
 
+        shopNameTField.setText(storeName);
         shopNameTField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 shopNameTFieldActionPerformed(evt);
             }
         });
 
+        localityTField.setText(place);
+
         shopAddr5.setText("State :");
 
         shopAddr4.setText("PIN Code:");
 
-        vendorIdLabel.setText("Vendor id:");
+        districtTField.setText(district);
 
-        shopIdLabel.setText("Shop id:");
+        pinTField.setText(pin);
+
+        contactTField.setText(contact);
+
+        vendorIdLabel.setText("Vendor id :"+uId);
+
+        shopIdLabel.setText("Shop id :"+shopId);
+
+        documentLabel.setText("Document");
+
+        documentTField.setText(document);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -115,7 +146,6 @@ public class VendorProfile extends javax.swing.JFrame {
                             .addComponent(shopAddr5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(contactLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(nameLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(idLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(addrLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(shopAddr3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(shopAddr2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -130,9 +160,9 @@ public class VendorProfile extends javax.swing.JFrame {
                         .addComponent(pinTField)
                         .addComponent(stateTField)
                         .addComponent(shopNameTField)
-                        .addComponent(idTField)
                         .addComponent(nameTField)
-                        .addComponent(contactTField, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE)))
+                        .addComponent(contactTField, javax.swing.GroupLayout.DEFAULT_SIZE, 308, Short.MAX_VALUE))
+                    .addComponent(documentTField, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(101, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -145,7 +175,10 @@ public class VendorProfile extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(vendorIdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(123, 123, 123)
-                        .addComponent(shopIdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(shopIdLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(documentLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -155,16 +188,13 @@ public class VendorProfile extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(vendorIdLabel)
                     .addComponent(shopIdLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameLabel)
                     .addComponent(nameTField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(idLabel)
-                    .addComponent(idTField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(11, 11, 11)
                 .addComponent(addrLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(shopAddr1)
                     .addComponent(shopNameTField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -180,7 +210,7 @@ public class VendorProfile extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(shopAddr4)
                     .addComponent(pinTField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(shopAddr5)
                     .addComponent(stateTField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -192,7 +222,11 @@ public class VendorProfile extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(mailTField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(62, 62, 62)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(documentLabel)
+                    .addComponent(documentTField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(resetBtn)
                     .addComponent(updateBtn))
@@ -265,8 +299,8 @@ public class VendorProfile extends javax.swing.JFrame {
     private javax.swing.JLabel contactLabel;
     private javax.swing.JTextField contactTField;
     private javax.swing.JTextField districtTField;
-    private javax.swing.JLabel idLabel;
-    private javax.swing.JTextField idTField;
+    private javax.swing.JLabel documentLabel;
+    private javax.swing.JTextField documentTField;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField localityTField;
@@ -286,4 +320,31 @@ public class VendorProfile extends javax.swing.JFrame {
     private javax.swing.JButton updateBtn;
     private javax.swing.JLabel vendorIdLabel;
     // End of variables declaration//GEN-END:variables
+private void fillLabels() throws SQLException {
+    Connection conn=new DbConnect().connect();
+    String sqlUser="SELECT * FROM user WHERE id="+id+" AND cust_or_sell='s'";
+    Statement st=conn.createStatement( );
+    ResultSet rs = st.executeQuery(sqlUser);
+    if(rs.next()){
+        name=rs.getString("name");
+        uId=rs.getString("uniqueID");
+        email=rs.getString("email");
+        contact=rs.getString("phone");
+        document=rs.getString("document");
+        System.out.print(rs.getString("name"));
+        String sqlStore="SELECT * FROM shop WHERE seller_id="+uId;
+        ResultSet rs1=st.executeQuery(sqlStore);
+        if(rs1.next()){
+            place=rs1.getString("locality");
+            shopId=rs1.getString("shop_id");
+            storeName=rs1.getString("shop_name");
+            district=rs1.getString("district");
+            state=rs1.getString("state");
+            pin=rs1.getString("pincode");
+        }
+        
+       
+    }
+    
+}
 }

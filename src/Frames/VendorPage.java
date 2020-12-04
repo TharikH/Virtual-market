@@ -331,7 +331,7 @@ public class VendorPage extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        StockPage login=new StockPage();
+        StockPage login=new StockPage(storeId,uId);
         login.setVisible(true);
         login.pack();
         login.setLocationRelativeTo(null);
@@ -350,6 +350,12 @@ public class VendorPage extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        VendorProfile vp=new VendorProfile(id);
+        vp.setVisible(true);
+        vp.pack();
+        vp.setLocationRelativeTo(null);
+//        login.addWindowListener(new WindowClose());
+        vp.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -434,6 +440,7 @@ private void fillLabels() throws SQLException {
         if(rs1.next()){
             place=rs1.getString("locality");
             storeName=rs1.getString("shop_name");
+            storeId=rs1.getString("shop_id");
             discription=rs1.getString("district")+"\n"+rs1.getString("state")+"\n"+rs1.getString("pincode");
         }
         

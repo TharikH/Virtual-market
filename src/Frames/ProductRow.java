@@ -12,14 +12,18 @@ import java.awt.event.ActionEvent;
  * @author aswin
  */
 public class ProductRow extends javax.swing.JPanel{
-    public ProductRow(StockPage parent,int index,String name,String cat,String stock,String sell){
+    public ProductRow(StockPage parent,int prodId,int index,String name,String cat,String stock,String buy,String sell){
      initComponents(name,cat,stock,sell);
+     this.prodId=prodId;
      this.parent=parent;
      this.index=index;
+     this.buyPrice=Float.valueOf(buy);
     }
     //Variable Declaration
     private int index;
     private StockPage parent;
+    private int prodId;
+    private float buyPrice;
      private javax.swing.JLabel prodCat;
     private javax.swing.JLabel prodName;
     private javax.swing.JLabel prodPrice;
@@ -84,7 +88,25 @@ public class ProductRow extends javax.swing.JPanel{
         );
     }
 
-
+public String getProdName(){
+    System.out.print(prodName.getText());
+    return prodName.getText();
+}
+public String getProdCat(){
+    return prodCat.getText();
+}
+public String getProdStock(){
+    return prodStock.getText();
+}
+public String getProdSell(){
+    return prodPrice.getText();
+}
+public String getProdBuy(){
+    return String.valueOf(buyPrice);
+}
+public String getProdId(){
+    return String.valueOf(prodId);
+}
 }
         
     

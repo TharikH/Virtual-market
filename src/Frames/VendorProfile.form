@@ -50,7 +50,6 @@
                               <Component id="shopAddr5" alignment="0" max="32767" attributes="0"/>
                               <Component id="contactLabel" alignment="0" max="32767" attributes="0"/>
                               <Component id="nameLabel" alignment="0" max="32767" attributes="0"/>
-                              <Component id="idLabel" alignment="0" max="32767" attributes="0"/>
                               <Component id="addrLabel" alignment="0" max="32767" attributes="0"/>
                               <Component id="shopAddr3" alignment="0" max="32767" attributes="0"/>
                               <Component id="shopAddr2" alignment="0" max="32767" attributes="0"/>
@@ -68,10 +67,10 @@
                           <Component id="pinTField" max="32767" attributes="0"/>
                           <Component id="stateTField" alignment="0" max="32767" attributes="0"/>
                           <Component id="shopNameTField" alignment="0" max="32767" attributes="0"/>
-                          <Component id="idTField" alignment="0" max="32767" attributes="0"/>
                           <Component id="nameTField" alignment="0" max="32767" attributes="0"/>
                           <Component id="contactTField" pref="308" max="32767" attributes="0"/>
                       </Group>
+                      <Component id="documentTField" alignment="1" min="-2" pref="308" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="101" max="32767" attributes="0"/>
               </Group>
@@ -89,6 +88,10 @@
                           <EmptySpace min="-2" pref="123" max="-2" attributes="0"/>
                           <Component id="shopIdLabel" min="-2" pref="206" max="-2" attributes="0"/>
                       </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="documentLabel" min="-2" pref="114" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -102,18 +105,14 @@
                       <Component id="vendorIdLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="shopIdLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="nameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="nameTField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="idLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="idTField" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
                   <Component id="addrLabel" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="shopAddr1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="shopNameTField" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -133,7 +132,7 @@
                       <Component id="shopAddr4" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="pinTField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="shopAddr5" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="stateTField" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -148,7 +147,12 @@
                       <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="mailTField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="documentLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="documentTField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="resetBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="updateBtn" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -162,11 +166,6 @@
         <Component class="javax.swing.JLabel" name="nameLabel">
           <Properties>
             <Property name="text" type="java.lang.String" value="Vendor Name     :"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="idLabel">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Id              :"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="addrLabel">
@@ -188,15 +187,22 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nameTFieldActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JTextField" name="idTField">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="nameTField.setText(name);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="stateTField">
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stateTFieldActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="stateTField.setText(state);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="mailTField">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="mailTField.setText(email);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JButton" name="resetBtn">
           <Properties>
@@ -227,8 +233,14 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="shopNameTFieldActionPerformed"/>
           </Events>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="shopNameTField.setText(storeName);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="localityTField">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="localityTField.setText(place);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="shopAddr5">
           <Properties>
@@ -241,20 +253,43 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="districtTField">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="districtTField.setText(district);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="pinTField">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="pinTField.setText(pin);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="contactTField">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="contactTField.setText(contact);"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="vendorIdLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Vendor id:"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="&quot;Vendor id :&quot;+uId" type="code"/>
+            </Property>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="shopIdLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Shop id:"/>
+            <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="&quot;Shop id :&quot;+shopId" type="code"/>
+            </Property>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="documentLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Document"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="documentTField">
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="documentTField.setText(document);"/>
+          </AuxValues>
         </Component>
       </SubComponents>
     </Container>
