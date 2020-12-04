@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 02, 2020 at 06:52 PM
--- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.4
+-- Generation Time: Dec 04, 2020 at 05:02 PM
+-- Server version: 10.4.13-MariaDB
+-- PHP Version: 7.2.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -48,8 +48,20 @@ INSERT INTO `image` (`img_id`, `img`, `sid`) VALUES
 
 CREATE TABLE `product` (
   `product_id` int(10) NOT NULL,
-  `product_name` varchar(30) NOT NULL
+  `product_name` varchar(30) NOT NULL,
+  `category` varchar(15) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `product`
+--
+
+INSERT INTO `product` (`product_id`, `product_name`, `category`) VALUES
+(1, 'Apple', 'Fruit'),
+(2, 'Mango', 'Fruit'),
+(3, '7up', 'Drinks'),
+(4, 'Mountain Dew', 'Drinks'),
+(5, 'Lays Chilli', 'Snacks');
 
 -- --------------------------------------------------------
 
@@ -63,9 +75,17 @@ CREATE TABLE `shop` (
   `state` varchar(30) NOT NULL,
   `district` varchar(30) NOT NULL,
   `locality` varchar(30) NOT NULL,
-  `seller_id` int(10) NOT NULL,
+  `seller_id` varchar(15) NOT NULL,
   `pincode` int(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `shop`
+--
+
+INSERT INTO `shop` (`shop_id`, `shop_name`, `state`, `district`, `locality`, `seller_id`, `pincode`) VALUES
+(1, 'Nanma', 'kerala', 'kozhikode', 'Mukkam', '98765432102', 673639),
+(2, 'Tasty Bakes', 'Kerala', 'Malappuram', 'Areacode', '1121131145', 663634);
 
 -- --------------------------------------------------------
 
@@ -76,10 +96,23 @@ CREATE TABLE `shop` (
 CREATE TABLE `stock` (
   `product_id` int(10) NOT NULL,
   `availability` int(11) NOT NULL,
-  `category` varchar(10) NOT NULL,
-  `rate` float NOT NULL,
+  `buy_rate` float NOT NULL,
+  `sell_rate` float NOT NULL,
   `shop_id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `stock`
+--
+
+INSERT INTO `stock` (`product_id`, `availability`, `buy_rate`, `sell_rate`, `shop_id`) VALUES
+(1, 15, 30, 40, 1),
+(1, 30, 40, 45, 2),
+(2, 10, 35, 50, 1),
+(3, 20, 30, 35, 1),
+(3, 12, 30, 35, 2),
+(4, 10, 30, 35, 2),
+(5, 20, 7, 10, 2);
 
 -- --------------------------------------------------------
 
@@ -105,7 +138,8 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `name`, `password`, `email`, `document`, `uniqueID`, `phone`, `cust_or_sell`, `balance`) VALUES
 (1, 'qwerty', 'Qwerty@123', 'qwert@g.com', 'Pan-card', '98765432102', '9876543210', 's', 0),
-(2, 'raju', 'Raju@123', 'raju@g.com', 'Pan-card', '123456789098', '9876543212', 'c', 0);
+(2, 'raju', 'Raju@123', 'raju@g.com', 'Pan-card', '123456789098', '9876543212', 'c', 0),
+(3, 'Muhammed', 'Muhd@123', 'muhd@g.com', 'pan-card', '1121131145', '9874322501', 's', 0);
 
 -- --------------------------------------------------------
 
@@ -155,6 +189,14 @@ ALTER TABLE `shop`
   ADD PRIMARY KEY (`shop_id`);
 
 --
+-- Indexes for table `stock`
+--
+ALTER TABLE `stock`
+  ADD PRIMARY KEY (`product_id`,`shop_id`),
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `fk_shop_id` (`shop_id`);
+
+--
 -- Indexes for table `user`
 --
 ALTER TABLE `user`
@@ -180,25 +222,36 @@ ALTER TABLE `image`
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-  MODIFY `product_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `product_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `shop`
 --
 ALTER TABLE `shop`
-  MODIFY `shop_id` int(10) NOT NULL AUTO_INCREMENT;
+  MODIFY `shop_id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `virtual_transaction`
 --
 ALTER TABLE `virtual_transaction`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `stock`
+--
+ALTER TABLE `stock`
+  ADD CONSTRAINT `fk_prod_id` FOREIGN KEY (`product_id`) REFERENCES `product` (`product_id`),
+  ADD CONSTRAINT `fk_shop_id` FOREIGN KEY (`shop_id`) REFERENCES `shop` (`shop_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
