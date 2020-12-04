@@ -39,50 +39,57 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="contactLabel" max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="nameLabel" max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="idLabel" max="32767" attributes="0"/>
-                              </Group>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="addrLabel" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <EmptySpace min="-2" pref="78" max="-2" attributes="0"/>
-                      </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
-                  </Group>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="nameTField" max="32767" attributes="0"/>
-                          <Component id="idTField" pref="229" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="shopAddr5" alignment="0" max="32767" attributes="0"/>
+                              <Component id="contactLabel" alignment="0" max="32767" attributes="0"/>
+                              <Component id="nameLabel" alignment="0" max="32767" attributes="0"/>
+                              <Component id="idLabel" alignment="0" max="32767" attributes="0"/>
+                              <Component id="addrLabel" alignment="0" max="32767" attributes="0"/>
+                              <Component id="shopAddr3" alignment="0" max="32767" attributes="0"/>
+                              <Component id="shopAddr2" alignment="0" max="32767" attributes="0"/>
+                              <Component id="shopAddr1" alignment="1" max="32767" attributes="0"/>
+                              <Component id="shopAddr4" alignment="0" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="78" pref="78" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jScrollPane1" pref="292" max="32767" attributes="0"/>
-                      <Component id="contactTField" alignment="0" max="32767" attributes="0"/>
-                      <Component id="mailTField" max="32767" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="48" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="mailTField" alignment="1" min="-2" pref="308" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="localityTField" max="32767" attributes="0"/>
+                          <Component id="districtTField" max="32767" attributes="0"/>
+                          <Component id="pinTField" max="32767" attributes="0"/>
+                          <Component id="stateTField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="shopNameTField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="idTField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="nameTField" alignment="0" max="32767" attributes="0"/>
+                          <Component id="contactTField" pref="308" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <EmptySpace pref="101" max="32767" attributes="0"/>
               </Group>
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
-                  <Component id="resetBtn" min="-2" pref="102" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
-                  <Component id="updateBtn" min="-2" pref="108" max="-2" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="85" max="-2" attributes="0"/>
+                          <Component id="resetBtn" min="-2" pref="102" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
+                          <Component id="updateBtn" min="-2" pref="108" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="vendorIdLabel" min="-2" pref="208" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="123" max="-2" attributes="0"/>
+                          <Component id="shopIdLabel" min="-2" pref="206" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -90,7 +97,12 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="vendorIdLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="shopIdLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="nameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="nameTField" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -100,27 +112,43 @@
                       <Component id="idLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="idTField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" attributes="0">
-                          <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                          <Component id="addrLabel" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="addrLabel" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="shopAddr1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="shopNameTField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="26" max="32767" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="shopAddr2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="localityTField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="shopAddr3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="districtTField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="shopAddr4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="pinTField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="shopAddr5" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="stateTField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="contactLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="contactTField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="mailTField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="resetBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="updateBtn" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -133,7 +161,7 @@
       <SubComponents>
         <Component class="javax.swing.JLabel" name="nameLabel">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Name     :"/>
+            <Property name="text" type="java.lang.String" value="Vendor Name     :"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="idLabel">
@@ -163,24 +191,9 @@
         </Component>
         <Component class="javax.swing.JTextField" name="idTField">
         </Component>
-        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
-          <AuxValues>
-            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
-          </AuxValues>
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
-          <SubComponents>
-            <Component class="javax.swing.JTextArea" name="addrTField">
-              <Properties>
-                <Property name="columns" type="int" value="20"/>
-                <Property name="rows" type="int" value="5"/>
-              </Properties>
-            </Component>
-          </SubComponents>
-        </Container>
-        <Component class="javax.swing.JTextField" name="contactTField">
+        <Component class="javax.swing.JTextField" name="stateTField">
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="contactTFieldActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="stateTFieldActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="mailTField">
@@ -193,6 +206,54 @@
         <Component class="javax.swing.JButton" name="updateBtn">
           <Properties>
             <Property name="text" type="java.lang.String" value="Update"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="shopAddr2">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Locality :"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="shopAddr3">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="District:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="shopAddr1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Shop Name :"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="shopNameTField">
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="shopNameTFieldActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JTextField" name="localityTField">
+        </Component>
+        <Component class="javax.swing.JLabel" name="shopAddr5">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="State :"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="shopAddr4">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="PIN Code:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="districtTField">
+        </Component>
+        <Component class="javax.swing.JTextField" name="pinTField">
+        </Component>
+        <Component class="javax.swing.JTextField" name="contactTField">
+        </Component>
+        <Component class="javax.swing.JLabel" name="vendorIdLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Vendor id:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="shopIdLabel">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Shop id:"/>
           </Properties>
         </Component>
       </SubComponents>
