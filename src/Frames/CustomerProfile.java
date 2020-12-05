@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,13 +32,16 @@ public class CustomerProfile extends javax.swing.JFrame implements ActionListene
     /**
      * Creates new form CustomerProfile
      */
-    ArrayList arr;
     String id="1";
     Connection con=null;
     String sql;
     ResultSet rs;
+    private ImageIcon format=null;
+   String fname=null;
+       byte[] pimage=null;
     public CustomerProfile() {
         initComponents();
+        this.setLocationRelativeTo(null);
 //        renderOffer();
 profileUpdate();
     }
@@ -61,6 +65,19 @@ profileUpdate();
                 doc.setText(rs.getString("document"));
                 docid.setText(rs.getString("uniqueID"));
                 phone.setText(rs.getString("phone"));
+                
+                byte[] imagedata=rs.getBytes("img");
+               if(imagedata !=null){
+               format=new ImageIcon(imagedata);
+               Image mm=format.getImage();
+               Image img2=mm.getScaledInstance(img.getWidth(),        img.getHeight(), Image.SCALE_SMOOTH);
+               ImageIcon image=new ImageIcon(img2);
+               img.setIcon(image);
+                
+               }
+               else{
+                   img.setBackground(Color.red);
+               }
                 enableProfile(false);
             }
         }catch(SQLException e){
@@ -144,6 +161,7 @@ profileUpdate();
         doc = new javax.swing.JLabel();
         docid = new javax.swing.JLabel();
         jButton10 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -279,6 +297,7 @@ profileUpdate();
                 .addGap(66, 66, 66))
         );
 
+        img.setBackground(new java.awt.Color(119, 119, 119));
         img.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         jLabel3.setText("Name");
@@ -315,6 +334,19 @@ profileUpdate();
 
         jButton10.setText("Add Image");
         jButton10.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setText("Refresh");
+        jButton8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -349,7 +381,9 @@ profileUpdate();
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(img, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton10)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(0, 14, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -362,7 +396,9 @@ profileUpdate();
                         .addComponent(img, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(65, 65, 65)
-                        .addComponent(jButton10)))
+                        .addComponent(jButton10)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton8)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -502,6 +538,17 @@ private boolean isValidEmail(String email) {
         // TODO add your handling code here:
     }//GEN-LAST:event_emailActionPerformed
 
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        Frames.Image ob=new Frames.Image();
+        ob.setVisible(true);
+        ob.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        profileUpdate();
+    }//GEN-LAST:event_jButton8ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -552,6 +599,7 @@ private boolean isValidEmail(String email) {
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
+    private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

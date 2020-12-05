@@ -333,7 +333,7 @@ public class SignUp extends javax.swing.JFrame {
             error = "please provide valid id";
         } else {
             
-            String sql = "insert into user values(null,?,?,?,?,?,?,?,0)";
+            String sql = "insert into user values(null,?,?,?,?,?,?,?,0,NULL)";
             try {
                 Connection con = new DbConnect().connect();
                 PreparedStatement stm = con.prepareStatement(sql);
