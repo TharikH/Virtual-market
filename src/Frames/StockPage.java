@@ -5,6 +5,10 @@
  */
 package Frames;
 
+import java.awt.Image;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
@@ -12,6 +16,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import virtual.market.DbConnect;
 
 /**
@@ -22,6 +28,8 @@ public class StockPage extends javax.swing.JFrame{
    //Variable Declaration
     private static int index=-1;
     String id,shopId;
+    private ImageIcon format=null;
+    byte[] pimage=null;
     //private StockPage context;
     //String[][] pr={{"Apple","Fruit","15","30","40"},{"Mango","Fruit","10","35","50"},{"7up","Drinks","20","30","35"}};
     //String[] pr2={"Mango","Fruit","10","35","50"};
@@ -36,6 +44,7 @@ public class StockPage extends javax.swing.JFrame{
     private javax.swing.JLabel priceField;
     private javax.swing.JLabel stockField;
     private javax.swing.JLabel updateField;
+    private javax.swing.JLabel imageLabel;
     private ProductRow productRow;
     private ProductRow productRow1;
     private ArrayList<ProductRow> products;
@@ -57,6 +66,7 @@ public class StockPage extends javax.swing.JFrame{
     private javax.swing.JButton resetBtn;
     private javax.swing.JButton updateBtn;
     private javax.swing.JButton saveBtn;
+    private javax.swing.JButton browseImg;
     //Constructor
     public StockPage(){
         initVar();
@@ -206,6 +216,20 @@ public class StockPage extends javax.swing.JFrame{
             }
         });
 
+       imageLabel.setText("<img>");
+
+        browseImg.setText("Browse");
+        browseImg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+               try{ 
+                   browseImgActionPerformed(evt);
+               }
+               catch(NullPointerException e){
+                   System.out.print("\n error was thrown while canceling image window"+e);
+               }
+            }
+        });
+
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -247,13 +271,22 @@ public class StockPage extends javax.swing.JFrame{
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(saveBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
-                            .addComponent(addStockTField))))
+                            .addComponent(addStockTField)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(browseImg)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(imageLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(browseImg))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(editName, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nameTField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -280,7 +313,7 @@ public class StockPage extends javax.swing.JFrame{
                     .addComponent(resetBtn)
                     .addComponent(updateBtn)
                     .addComponent(saveBtn))
-                .addContainerGap(108, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -341,12 +374,61 @@ public class StockPage extends javax.swing.JFrame{
         pg .addGroup(sg);
         return pg;
     }
+    public ImageIcon resizeImage(String imagePath, byte[] pic){
+          
+        ImageIcon myImage=null;
+       if(imagePath !=null)
+        {
+            myImage=new ImageIcon(imagePath);
+        
+        }else{
+         myImage=new ImageIcon(pic);
+        }
+                
+        Image img=myImage.getImage();
+        Image img2=img.getScaledInstance(imageLabel.getHeight(),    imageLabel.getWidth(),  Image.SCALE_SMOOTH);
+        ImageIcon image=new ImageIcon(img2);
+        return image;
+    }
+    private void browseImgActionPerformed(java.awt.event.ActionEvent evt) throws NullPointerException {                                          
+        // TODO add your handling code here:
+        //To insert an image
+        JFileChooser fchoser=new JFileChooser();
+        fchoser.showOpenDialog(null);
+        File f=fchoser.getSelectedFile();
+        String fname=f.getAbsolutePath();
+       ImageIcon micon=new ImageIcon(fname);        
+        try {
+            File image=new File(fname);
+            FileInputStream fis=new FileInputStream(image);
+            ByteArrayOutputStream baos=new ByteArrayOutputStream();
+            byte[] buf=new byte[1024];
+            for(int readnum; (readnum=fis.read(buf)) !=-1;)
+            {            
+               baos.write(buf,0,readnum);                
+            }
+            pimage=baos.toByteArray();
+            imageLabel.setIcon(resizeImage(fname, buf));
+        } catch (Exception e) {
+            System.out.println("Cannot do it");
+        }
+    }
     public void setEdit(int val){
         this.index=val;
         setEditPanel(this.index);
     }
+    //set values in edit panel when edit btn is clicked
     private void setEditPanel(int val){
         ProductRow temp=products.get(val);
+        try{
+        Image img=temp.getImage();
+        img=img.getScaledInstance(imageLabel.getWidth(),imageLabel.getHeight(), Image.SCALE_SMOOTH);
+        imageLabel.setIcon(new ImageIcon(img));
+        }
+        catch(Exception e){
+            System.out.print("Cannot load image");
+        }
+        
         //System.out.print(temp.getName()+"\n"+temp.getProdCat());
         nameTField.setText(temp.getProdName());
         catTField.setText(temp.getProdCat());
@@ -354,6 +436,7 @@ public class StockPage extends javax.swing.JFrame{
         buyTField.setText(temp.getProdBuy());
         sellTField.setText(temp.getProdSell());
     }
+    //reset btn action
     public void resetBtnActionPerformed(){
         this.index=-1;
         nameTField.setText("");
@@ -362,7 +445,10 @@ public class StockPage extends javax.swing.JFrame{
         buyTField.setText("");
         sellTField.setText("");
     }
+    //Variable declaration
     private void initVar(){
+        imageLabel = new javax.swing.JLabel();
+        browseImg = new javax.swing.JButton();
         //products.add(new ProductRow(this,0,pr[0][0],pr[0][1],pr[0][2],pr[0][4]));
         //products.add(new ProductRow(this,1,pr[1][0],pr[1][1],pr[1][2],pr[1][4]));
         //products.add(new ProductRow(this,2,pr[2][0],pr[2][1],pr[2][2],pr[2][4]));
@@ -393,14 +479,16 @@ public class StockPage extends javax.swing.JFrame{
         saveBtn = new javax.swing.JButton();
         buyTField = new javax.swing.JTextField(); 
     }
+    
+    //Get value from Database
     private void getStock() throws SQLException{
         products=new ArrayList<ProductRow>();
         Connection conn=new DbConnect().connect();
-        String sqlProds="SELECT P.product_id,P.product_name,P.category,S.availability,S.buy_rate,S.sell_rate "
+        String sqlProds="SELECT P.product_id,P.product_name,P.category,S.availability,S.buy_rate,S.sell_rate,S.img "
                 + "FROM product P, stock S "
                 + "WHERE P.product_id=S.product_id "
                 + "AND S.shop_id="+id;
-        System.out.print("SELECT P.product_id,P.product_name,P.category,S.availability,S.buy_rate,S.sell_rate "
+        System.out.print("SELECT P.product_id,P.product_name,P.category,S.availability,S.buy_rate,S.sell_rate,S.img "
                 + "FROM product P, stock S "
                 + "WHERE P.product_id=S.product_id "
                 + "AND S.shop_id="+id);
@@ -408,7 +496,7 @@ public class StockPage extends javax.swing.JFrame{
         ResultSet rs=st.executeQuery(sqlProds);
         while(rs.next()){
             System.out.print(rs.getString("product_id"));
-            products.add(new ProductRow(this,Integer.parseInt(rs.getString("product_id")),products.size(),rs.getString("product_name"),rs.getString("category"),rs.getString("availability"),rs.getString("buy_rate"),rs.getString("sell_rate")));
+            products.add(new ProductRow(this,Integer.parseInt(rs.getString("product_id")),products.size(),rs.getString("product_name"),rs.getString("category"),rs.getString("availability"),rs.getString("buy_rate"),rs.getString("sell_rate"),new ImageIcon(rs.getBytes("img"))));
         }
         
     }
