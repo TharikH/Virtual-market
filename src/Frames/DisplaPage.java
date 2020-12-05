@@ -5,24 +5,161 @@
  */
 package Frames;
 
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.sql.*;
+import javax.swing.ImageIcon;
+import javax.swing.JTextField;
+import virtual.market.DbConnect;
+
 /**
  *
  * @author tharikh
  */
-public class DisplaPage extends javax.swing.JFrame {
+public class DisplaPage extends javax.swing.JFrame implements ActionListener {
 
     /**
      * Creates new form DisplaPage
      */
-    String id,type;
+    String id, type;
+    private ImageIcon format = null;
+    String fname = null;
+    int s = 0;
+    byte[] pimage = null;
+
     public DisplaPage() {
         initComponents();
+        fetchData();
+        String cat[] = {"Categories", "Grocery", "Tailoring", "Electronics"};
+        category.setModel(new javax.swing.DefaultComboBoxModel(cat));
     }
-    public DisplaPage(String id,String type){
+
+    public DisplaPage(String id, String type) {
         this();
-        this.id=id;
-        this.type=type;
+        this.id = id;
+        this.type = type;
+
     }
+
+    private void render(ResultSet rs) throws SQLException {
+        ArrayList arr = new ArrayList<JPanel>();
+        JPanel but;
+        String stock_id, product_name;
+        int avail;
+        float rate;
+//        Border blackline = BorderFactory.createEmptyBorder(50,50, 50, 50);
+        while (rs.next()) {
+            rate = rs.getFloat("rate");
+            avail = rs.getInt("availability");
+            stock_id = rs.getString("stock_id");
+            product_name = rs.getString("product_name");
+            byte[] imagedata = rs.getBytes("img");
+            format = new ImageIcon(imagedata);
+            Image mm = format.getImage();
+
+            JButton desc = new JButton("Description");
+            JPanel jp = new JPanel();
+            JLabel jl = new JLabel();
+            JButton jb = new JButton("Buy now");
+            JLabel jname = new JLabel(product_name.toUpperCase(), SwingConstants.CENTER);
+            JButton cartbut = new JButton("Add to cart");
+            JLabel jrate = new JLabel(String.valueOf(rate) + "Rs", SwingConstants.CENTER);
+            jl.setPreferredSize(new Dimension(250, 180));
+            jb.setPreferredSize(new Dimension(100, 50));
+            cartbut.setPreferredSize(new Dimension(100, 50));
+            jname.setPreferredSize(new Dimension(200, 30));
+            jrate.setPreferredSize(new Dimension(200, 30));
+            desc.setPreferredSize(new Dimension(200, 30));
+
+            jrate.setFont(new Font("Serif", Font.BOLD, 17));
+            jname.setFont(new Font("Serif", Font.BOLD, 17));
+
+            Image img2 = mm.getScaledInstance(250, 180, Image.SCALE_SMOOTH);
+            ImageIcon image = new ImageIcon(img2);
+            jl.setIcon(image);
+            jl.setHorizontalAlignment(SwingConstants.CENTER);
+            jl.setVerticalAlignment(SwingConstants.CENTER);
+
+            jb.setActionCommand("buy-" + stock_id);
+            cartbut.setActionCommand("cart-" + stock_id);
+            desc.setActionCommand("desc-" + stock_id);
+//            jl.setBackground(Color.red);
+//            jb.setBackground(Color.blue);
+//            jp.setLayout(new BoxLayout(jp,BoxLayout.Y_AXIS));
+            jb.addActionListener(this);
+            cartbut.addActionListener(this);
+            desc.addActionListener(this);
+
+            jb.setCursor(new Cursor(12));
+            cartbut.setCursor(new Cursor(12));
+            desc.setCursor(new Cursor(12));
+
+            jp.add(jl);
+            jp.add(jname);
+            jp.add(jrate);
+            jp.add(cartbut);
+            jp.add(jb);
+            jp.add(desc);
+//            jp.setBorder(blackline);
+            jp.setBackground(new Color(40, 116, 240));
+            arr.add(jp);
+        }
+
+        int i = 30, k = 0, j, m;
+        int n = arr.size();
+        JPanel temp;
+        while (k < n) {
+            j = 0;
+            m = 10;
+            while (j < 3) {
+                if (k < n) {
+                    temp = (JPanel) arr.get(k);
+                    temp.setBounds(m, i, 290, 350);
+                    displaypanel.add(temp);
+                    m += 315;
+                    k++;
+                }
+                j++;
+            }
+            i += 365;
+        }
+//        for(Object j:arr){
+//            but=(JPanel)j;
+//            but.setBounds(10,i,805,200);
+////            but.setBorder(blackline);
+//            i+=215;
+//            displaypanel.add(but);
+//        }
+        displaypanel.setPreferredSize(new Dimension(805, i));
+    }
+
+    private void fetchData() {
+        try {
+            Connection conn = new DbConnect().connect();
+            String sql = "select * from stock natural join product";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            ResultSet rs = stm.executeQuery();
+            render(rs);
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        System.out.println(e.getActionCommand());
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,18 +171,12 @@ public class DisplaPage extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        searchtext = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        category = new javax.swing.JComboBox<>();
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jButton3 = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
+        displaypanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -57,20 +188,22 @@ public class DisplaPage extends javax.swing.JFrame {
         jLabel1.setText("VIRTUAL MARKET");
 
         jButton1.setText("Search");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        category.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        category.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                categoryActionPerformed(evt);
             }
         });
 
         jButton2.setText("HOME");
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -83,8 +216,8 @@ public class DisplaPage extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 469, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jComboBox1, 0, 254, Short.MAX_VALUE)
-                    .addComponent(jTextField1))
+                    .addComponent(category, 0, 254, Short.MAX_VALUE)
+                    .addComponent(searchtext))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -102,103 +235,24 @@ public class DisplaPage extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(searchtext, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, Short.MAX_VALUE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(category, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 12, Short.MAX_VALUE))))
         );
 
-        jPanel3.setBackground(new java.awt.Color(40, 116, 240));
-
-        jButton4.setText("BUY NOW");
-
-        jLabel2.setForeground(new java.awt.Color(1, 1, 1));
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("RS 200 per kg");
-
-        jButton3.setText("ADD CART+");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        javax.swing.GroupLayout displaypanelLayout = new javax.swing.GroupLayout(displaypanel);
+        displaypanel.setLayout(displaypanelLayout);
+        displaypanelLayout.setHorizontalGroup(
+            displaypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 953, Short.MAX_VALUE)
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton4)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+        displaypanelLayout.setVerticalGroup(
+            displaypanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 593, Short.MAX_VALUE)
         );
 
-        jPanel4.setBackground(new java.awt.Color(40, 116, 240));
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 303, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 306, Short.MAX_VALUE)
-        );
-
-        jPanel5.setBackground(new java.awt.Color(40, 116, 240));
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 266, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 306, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(58, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(275, Short.MAX_VALUE))
-        );
-
-        jScrollPane1.setViewportView(jPanel2);
+        jScrollPane1.setViewportView(displaypanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -220,16 +274,57 @@ public class DisplaPage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        displaypanel.removeAll();
+        displaypanel.revalidate();
+        displaypanel.repaint();
+        
+        try{
+            Connection conn= new DbConnect().connect();
+            String sql="select * from stock natural join product where product_name like ?";
+            PreparedStatement stm=conn.prepareStatement(sql);
+            stm.setString(1,"%"+searchtext.getText()+"%");
+            ResultSet rs=stm.executeQuery();
+            render(rs);
+            
+            conn.close();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        String cat[] = {"Categories", "Grocery", "Tailoring", "Electronics"};
+        category.setModel(new javax.swing.DefaultComboBoxModel(cat));
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    private void categoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_categoryActionPerformed
+        displaypanel.removeAll();
+        displaypanel.revalidate();
+        displaypanel.repaint();
+        
+        try{
+            Connection conn= new DbConnect().connect();
+            String sql,cat=(String) category.getSelectedItem();
+            PreparedStatement stm;
+            if(!cat.equals("Categories")){
+            sql="select * from stock natural join product where category=?";
+            stm=conn.prepareStatement(sql);
+            stm.setString(1,cat);
+            }
+            else{
+                sql="select * from stock natural join product";
+                stm=conn.prepareStatement(sql);
+            }
+            
+            ResultSet rs=stm.executeQuery();
+            render(rs);
+            
+            conn.close();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+        searchtext.setText("");
+        
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_categoryActionPerformed
 
     /**
      * @param args the command line arguments
@@ -267,19 +362,13 @@ public class DisplaPage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> category;
+    private javax.swing.JPanel displaypanel;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField searchtext;
     // End of variables declaration//GEN-END:variables
 }
