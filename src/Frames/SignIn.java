@@ -211,6 +211,13 @@ public class SignIn extends javax.swing.JFrame {
                         login.setLocationRelativeTo(null);
                         login.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
                     }
+                    else if(rs.getString("cust_or_sell").equals("s")){
+                       VendorPage login = new VendorPage(rs.getString("id"));
+                        login.setVisible(true);
+                        login.pack();
+                        login.setLocationRelativeTo(null);
+                        login.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);  
+                    }
                 } else {
                     error = "invalid credentials";
                 }

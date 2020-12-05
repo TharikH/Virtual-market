@@ -6,9 +6,13 @@
 package Frames;
 
 import java.util.ArrayList;
-import javax.swing.GroupLayout.Group;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import virtual.market.DbConnect;
 
 /**
  *
@@ -17,8 +21,9 @@ import javax.swing.GroupLayout.SequentialGroup;
 public class StockPage extends javax.swing.JFrame{
    //Variable Declaration
     private static int index=-1;
+    String id,shopId;
     //private StockPage context;
-    String[][] pr={{"Apple","Fruit","15","30","40"},{"Mango","Fruit","10","35","50"},{"7up","Drinks","20","30","35"}};
+    //String[][] pr={{"Apple","Fruit","15","30","40"},{"Mango","Fruit","10","35","50"},{"7up","Drinks","20","30","35"}};
     //String[] pr2={"Mango","Fruit","10","35","50"};
    // String[] pr3={"7up","Drinks","20","30","35"};
     private javax.swing.JLabel catField;
@@ -52,42 +57,27 @@ public class StockPage extends javax.swing.JFrame{
     private javax.swing.JButton resetBtn;
     private javax.swing.JButton updateBtn;
     private javax.swing.JButton saveBtn;
+    //Constructor
     public StockPage(){
+        initVar();
+        initComponents();
+    }
+    public StockPage(String id,String shopId){
+        this.id=id;
+        this.shopId =shopId;
+        initVar();
+        try{
+            getStock();
+        }
+        catch(SQLException e){
+            System.out.print("error occured"+e);
+        }
         initComponents();
     }
     
 //Component declaration
     private void initComponents() {
-        products=new ArrayList<ProductRow>();
-        products.add(new ProductRow(this,0,pr[0][0],pr[0][1],pr[0][2],pr[0][4]));
-        products.add(new ProductRow(this,1,pr[1][0],pr[1][1],pr[1][2],pr[1][4]));
-        products.add(new ProductRow(this,2,pr[2][0],pr[2][1],pr[2][2],pr[2][4]));
-       jPanel1 = new javax.swing.JPanel();
-        scrollPanel = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        nameField = new javax.swing.JLabel();
-        catField = new javax.swing.JLabel();
-        stockField = new javax.swing.JLabel();
-        priceField = new javax.swing.JLabel();
-        updateField = new javax.swing.JLabel();
-        jPanel7 = new javax.swing.JPanel();
-        editName = new javax.swing.JLabel();
-        editCat = new javax.swing.JLabel();
-        editStock = new javax.swing.JLabel();
-        nameTField = new javax.swing.JTextField();
-        catTField = new javax.swing.JTextField();
-        stockTField = new javax.swing.JTextField();
-        addStock = new javax.swing.JLabel();
-        addStockTField = new javax.swing.JTextField();
-        editBuy = new javax.swing.JLabel();
-        editSell = new javax.swing.JLabel();
-        sellTField = new javax.swing.JTextField();
-        resetBtn = new javax.swing.JButton();
-        updateBtn = new javax.swing.JButton();
-        saveBtn = new javax.swing.JButton();
-        buyTField = new javax.swing.JTextField();
+        
        // productRow=new ProductRow();
         //productRow1=new ProductRow();
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -356,11 +346,13 @@ public class StockPage extends javax.swing.JFrame{
         setEditPanel(this.index);
     }
     private void setEditPanel(int val){
-        nameTField.setText(pr[val][0]);
-        catTField.setText(pr[val][1]);
-        stockTField.setText(pr[val][2]);
-        buyTField.setText(pr[val][3]);
-        sellTField.setText(pr[val][4]);
+        ProductRow temp=products.get(val);
+        //System.out.print(temp.getName()+"\n"+temp.getProdCat());
+        nameTField.setText(temp.getProdName());
+        catTField.setText(temp.getProdCat());
+        stockTField.setText(temp.getProdStock());
+        buyTField.setText(temp.getProdBuy());
+        sellTField.setText(temp.getProdSell());
     }
     public void resetBtnActionPerformed(){
         this.index=-1;
@@ -369,5 +361,55 @@ public class StockPage extends javax.swing.JFrame{
         stockTField.setText("");
         buyTField.setText("");
         sellTField.setText("");
+    }
+    private void initVar(){
+        //products.add(new ProductRow(this,0,pr[0][0],pr[0][1],pr[0][2],pr[0][4]));
+        //products.add(new ProductRow(this,1,pr[1][0],pr[1][1],pr[1][2],pr[1][4]));
+        //products.add(new ProductRow(this,2,pr[2][0],pr[2][1],pr[2][2],pr[2][4]));
+       jPanel1 = new javax.swing.JPanel();
+        scrollPanel = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jPanel2 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        nameField = new javax.swing.JLabel();
+        catField = new javax.swing.JLabel();
+        stockField = new javax.swing.JLabel();
+        priceField = new javax.swing.JLabel();
+        updateField = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        editName = new javax.swing.JLabel();
+        editCat = new javax.swing.JLabel();
+        editStock = new javax.swing.JLabel();
+        nameTField = new javax.swing.JTextField();
+        catTField = new javax.swing.JTextField();
+        stockTField = new javax.swing.JTextField();
+        addStock = new javax.swing.JLabel();
+        addStockTField = new javax.swing.JTextField();
+        editBuy = new javax.swing.JLabel();
+        editSell = new javax.swing.JLabel();
+        sellTField = new javax.swing.JTextField();
+        resetBtn = new javax.swing.JButton();
+        updateBtn = new javax.swing.JButton();
+        saveBtn = new javax.swing.JButton();
+        buyTField = new javax.swing.JTextField(); 
+    }
+    private void getStock() throws SQLException{
+        products=new ArrayList<ProductRow>();
+        Connection conn=new DbConnect().connect();
+        String sqlProds="SELECT P.product_id,P.product_name,P.category,S.availability,S.buy_rate,S.sell_rate "
+                + "FROM product P, stock S "
+                + "WHERE P.product_id=S.product_id "
+                + "AND S.shop_id="+id;
+        System.out.print("SELECT P.product_id,P.product_name,P.category,S.availability,S.buy_rate,S.sell_rate "
+                + "FROM product P, stock S "
+                + "WHERE P.product_id=S.product_id "
+                + "AND S.shop_id="+id);
+        Statement st=conn.createStatement( );
+        ResultSet rs=st.executeQuery(sqlProds);
+        while(rs.next()){
+            System.out.print(rs.getString("product_id"));
+            products.add(new ProductRow(this,Integer.parseInt(rs.getString("product_id")),products.size(),rs.getString("product_name"),rs.getString("category"),rs.getString("availability"),rs.getString("buy_rate"),rs.getString("sell_rate")));
+        }
+        
     }
 }
