@@ -82,66 +82,68 @@ public class image extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        JFileChooser fchoser=new JFileChooser();
-//        fchoser.showOpenDialog(null);
-//        File f=fchoser.getSelectedFile();
-//        fname=f.getAbsolutePath();
-//        ImageIcon micon=new ImageIcon(fname);        
-//        try {
-//            File image=new File(fname);
-//            FileInputStream fis=new FileInputStream(image);
-//            ByteArrayOutputStream baos=new ByteArrayOutputStream();
-//            byte[] buf=new byte[1024];
-//            for(int readnum; (readnum=fis.read(buf)) !=-1;)
-//            {            
-//                baos.write(buf,0,readnum);                
-//            }
-//            pimage=baos.toByteArray();
-//            lab.setIcon(resizeImage(fname, buf));
-//        } catch (Exception e) {
-//        }  
+        JFileChooser fchoser=new JFileChooser();
+        fchoser.showOpenDialog(null);
+        File f=fchoser.getSelectedFile();
+        fname=f.getAbsolutePath();
+       ImageIcon micon=new ImageIcon(fname);        
+        try {
+            File image=new File(fname);
+            FileInputStream fis=new FileInputStream(image);
+            ByteArrayOutputStream baos=new ByteArrayOutputStream();
+            byte[] buf=new byte[1024];
+            for(int readnum; (readnum=fis.read(buf)) !=-1;)
+            {            
+               baos.write(buf,0,readnum);                
+            }
+            pimage=baos.toByteArray();
+            lab.setIcon(resizeImage(fname, buf));
+        } catch (Exception e) {
+            System.out.println("Cannot do it");
+        }  
 
 
-//try {
-//        Connection conn=new DbConnect().connect();
-//            String sql="select * from image where img_id=1";          
-//           PreparedStatement pst=conn.prepareStatement(sql);
-//           ResultSet rs=pst.executeQuery();
-//           if(rs.next())
-//           {          
-//               byte[] imagedata=rs.getBytes("img");
-//               format=new ImageIcon(imagedata);
-//               Image mm=format.getImage();
-//               Image img2=mm.getScaledInstance(lab.getWidth(),        lab.getHeight(), Image.SCALE_SMOOTH);
-//               ImageIcon image=new ImageIcon(img2);
-//               lab.setIcon(image);
-//            } 
-//           else
-//           {
-//          
-//           }
-//           conn.close();
-//        } catch (Exception e) {
-//           
-//        } 
+/*try {
+        Connection conn=new DbConnect().connect();
+            String sql="select * from image where img_id=1";          
+           PreparedStatement pst=conn.prepareStatement(sql);
+           ResultSet rs=pst.executeQuery();
+           if(rs.next())
+           {          
+               byte[] imagedata=rs.getBytes("img");
+               format=new ImageIcon(imagedata);
+               Image mm=format.getImage();
+               Image img2=mm.getScaledInstance(lab.getWidth(),        lab.getHeight(), Image.SCALE_SMOOTH);
+               ImageIcon image=new ImageIcon(img2);
+               lab.setIcon(image);
+            } 
+           else
+           {
+          
+           }
+           conn.close();
+        } catch (Exception e) {
+           
+        } 
+        */
     }//GEN-LAST:event_jButton1ActionPerformed
 
-//    public ImageIcon resizeImage(String imagePath, byte[] pic){
-//          
-//        ImageIcon myImage=null;
-//        if(imagePath !=null)
-//        {
-//        myImage=new ImageIcon(imagePath);
-//        
-//        }else{
-//         myImage=new ImageIcon(pic);
-//        }
-//                
-//        Image img=myImage.getImage();
-//        Image img2=img.getScaledInstance(lab.getHeight(),    lab.getWidth(),  Image.SCALE_SMOOTH);
-//        ImageIcon image=new ImageIcon(img2);
-//        return image;
-//    }
+    public ImageIcon resizeImage(String imagePath, byte[] pic){
+          
+        ImageIcon myImage=null;
+       if(imagePath !=null)
+        {
+myImage=new ImageIcon(imagePath);
+        
+        }else{
+         myImage=new ImageIcon(pic);
+        }
+                
+        Image img=myImage.getImage();
+        Image img2=img.getScaledInstance(lab.getHeight(),    lab.getWidth(),  Image.SCALE_SMOOTH);
+        ImageIcon image=new ImageIcon(img2);
+        return image;
+    }
     /**
      * @param args the command line arguments
      */

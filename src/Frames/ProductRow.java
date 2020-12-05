@@ -5,25 +5,29 @@
  */
 package Frames;
 
+import java.awt.Image;
 import java.awt.event.ActionEvent;
+import javax.swing.ImageIcon;
 
 /**
  *
  * @author aswin
  */
 public class ProductRow extends javax.swing.JPanel{
-    public ProductRow(StockPage parent,int prodId,int index,String name,String cat,String stock,String buy,String sell){
+    public ProductRow(StockPage parent,int prodId,int index,String name,String cat,String stock,String buy,String sell,ImageIcon img){
      initComponents(name,cat,stock,sell);
      this.prodId=prodId;
      this.parent=parent;
      this.index=index;
      this.buyPrice=Float.valueOf(buy);
+     this.img=img;
     }
     //Variable Declaration
     private int index;
     private StockPage parent;
     private int prodId;
     private float buyPrice;
+    private ImageIcon img;
      private javax.swing.JLabel prodCat;
     private javax.swing.JLabel prodName;
     private javax.swing.JLabel prodPrice;
@@ -106,6 +110,9 @@ public String getProdBuy(){
 }
 public String getProdId(){
     return String.valueOf(prodId);
+}
+public Image getImage() throws Exception{
+    return img.getImage();
 }
 }
         
