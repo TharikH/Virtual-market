@@ -97,6 +97,11 @@ public class VendorProfile extends javax.swing.JFrame {
         resetBtn.setText("Reset");
 
         updateBtn.setText("Update");
+        updateBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateBtnActionPerformed(evt);
+            }
+        });
 
         shopAddr2.setText("Locality :");
 
@@ -258,6 +263,10 @@ public class VendorProfile extends javax.swing.JFrame {
     private void shopNameTFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shopNameTFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_shopNameTFieldActionPerformed
+
+    private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_updateBtnActionPerformed
 
     /**
      * @param args the command line arguments

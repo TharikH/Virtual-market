@@ -31,7 +31,7 @@ public class DisplaPage extends javax.swing.JFrame implements ActionListener {
     /**
      * Creates new form DisplaPage
      */
-    String id, type;
+    String id="1", type;
     private ImageIcon format = null;
     String fname = null;
     int s = 0;
@@ -40,8 +40,7 @@ public class DisplaPage extends javax.swing.JFrame implements ActionListener {
     public DisplaPage() {
         initComponents();
         fetchData();
-        String cat[] = {"Categories", "Grocery", "Tailoring", "Electronics"};
-        category.setModel(new javax.swing.DefaultComboBoxModel(cat));
+        setCat();
     }
 
     public DisplaPage(String id, String type) {
@@ -50,7 +49,26 @@ public class DisplaPage extends javax.swing.JFrame implements ActionListener {
         this.type = type;
 
     }
-
+    private void setCat(){
+        ArrayList<String> arr=new ArrayList();
+        arr.add("Category");
+        try{
+            Connection con=new DbConnect().connect();
+            String sql="select distinct category from product";
+            PreparedStatement stm=con.prepareStatement(sql);
+            ResultSet rs=stm.executeQuery();
+            while(rs.next()){
+                arr.add(rs.getString("category"));
+            }
+            String cat[] =new String[arr.size()];
+            cat=arr.toArray(cat);
+        category.setModel(new javax.swing.DefaultComboBoxModel(cat));
+        
+        con.close();
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
     private void render(ResultSet rs) throws SQLException {
         ArrayList arr = new ArrayList<JPanel>();
         JPanel but;
@@ -59,7 +77,7 @@ public class DisplaPage extends javax.swing.JFrame implements ActionListener {
         float rate;
 //        Border blackline = BorderFactory.createEmptyBorder(50,50, 50, 50);
         while (rs.next()) {
-            rate = rs.getFloat("rate");
+            rate = rs.getFloat("sell_rate");
             avail = rs.getInt("availability");
             stock_id = rs.getString("stock_id");
             product_name = rs.getString("product_name");
@@ -73,7 +91,7 @@ public class DisplaPage extends javax.swing.JFrame implements ActionListener {
             JButton jb = new JButton("Buy now");
             JLabel jname = new JLabel(product_name.toUpperCase(), SwingConstants.CENTER);
             JButton cartbut = new JButton("Add to cart");
-            JLabel jrate = new JLabel(String.valueOf(rate) + "Rs", SwingConstants.CENTER);
+            JLabel jrate = new JLabel(String.valueOf(rate) + "Rs per item/kg", SwingConstants.CENTER);
             jl.setPreferredSize(new Dimension(250, 180));
             jb.setPreferredSize(new Dimension(100, 50));
             cartbut.setPreferredSize(new Dimension(100, 50));
@@ -157,7 +175,18 @@ public class DisplaPage extends javax.swing.JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        System.out.println(e.getActionCommand());
+        String evt=e.getActionCommand();
+        String arr[]=new String[2];
+        arr=evt.split("-");
+        if(arr[0].equals("desc")){
+            Description ob=new Description(arr[1]);
+            ob.setVisible(true);
+            ob.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        }else if(arr[0].equals("cart") || arr[0].equals("buy")){
+            QuantitySpecifier ob=new QuantitySpecifier(arr[0],arr[1],id);
+            ob.setVisible(true);
+            ob.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        }
     }
 
     /**
@@ -290,8 +319,7 @@ public class DisplaPage extends javax.swing.JFrame implements ActionListener {
         }catch(SQLException e){
             System.out.println(e.getMessage());
         }
-        String cat[] = {"Categories", "Grocery", "Tailoring", "Electronics"};
-        category.setModel(new javax.swing.DefaultComboBoxModel(cat));
+        setCat();
         
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -304,7 +332,7 @@ public class DisplaPage extends javax.swing.JFrame implements ActionListener {
             Connection conn= new DbConnect().connect();
             String sql,cat=(String) category.getSelectedItem();
             PreparedStatement stm;
-            if(!cat.equals("Categories")){
+            if(!cat.equals("Category")){
             sql="select * from stock natural join product where category=?";
             stm=conn.prepareStatement(sql);
             stm.setString(1,cat);
