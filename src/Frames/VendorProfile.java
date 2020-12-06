@@ -8,7 +8,10 @@ package Frames;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import virtual.market.DbConnect;
 
 /**
@@ -16,7 +19,7 @@ import virtual.market.DbConnect;
  * @author aswin
  */
 public class VendorProfile extends javax.swing.JFrame {
-    String id,uId,place,name,state,pin,storeName,district,email,contact,document,shopId;
+    String id,uId="",place,name,state,pin,storeName,district,email,contact,document,shopId;
     /**
      * Creates new form VendorProfile
      */
@@ -33,6 +36,7 @@ public class VendorProfile extends javax.swing.JFrame {
             System.out.print(id);
         }
         initComponents();
+        documentTField.setEditable(false);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -266,6 +270,75 @@ public class VendorProfile extends javax.swing.JFrame {
 
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
         // TODO add your handling code here:
+        try{
+            Connection conn=new DbConnect().connect();
+            String updateSql="UPDATE `user` SET `name`=?,`email`=?,`phone`=? WHERE id=? AND cust_or_sell='s'";
+            if(isValidEmail(mailTField.getText()) && isValidName(nameTField.getText())&&isValidPhone(contactTField.getText())){
+                PreparedStatement ps=conn.prepareStatement(updateSql);
+                ps.setString(1,nameTField.getText());
+                ps.setString(2,mailTField.getText());
+                ps.setString(3,contactTField.getText());
+                ps.setString(4,id);
+                int rs=ps.executeUpdate();
+                if (rs!=0){
+                  System.out.print("user section updated");
+                }
+                conn.close();
+            }
+            
+            
+        }
+        catch(Exception e){
+            System.out.print(e);
+        }
+        try{
+            Connection conn=new DbConnect().connect();
+            if(uId.equals("")){
+               String insertSql="INSERT INTO `shop`( `shop_name`, `state`, `district`, `locality`,`seller_id`, `pincode`) VALUES (?,?,?,?,?,?) ";
+                if(isValidName(shopNameTField.getText()) && isValidName(localityTField.getText())&&isValidName(districtTField.getText())&&isValidName(stateTField.getText())&&isValidName(pinTField.getText())){
+                    PreparedStatement ps=conn.prepareStatement(insertSql);
+                    ps.setString(1,shopNameTField.getText());
+                    ps.setString(2,stateTField.getText());
+                    ps.setString(3,districtTField.getText());
+                    ps.setString(4,localityTField.getText());
+                    ps.setString(5,uId);
+                    ps.setString(6,pinTField.getText());
+                    int rs=ps.executeUpdate();
+                if (rs!=0){
+                  System.out.print("new shop inserted");
+                }
+            }
+                else{
+                    throw(new SQLException());
+                }
+            }
+            else{
+                String updateSql="UPDATE `shop` SET `shop_name`=?,`state`=?,`district`=?,`locality`=?,`pincode`=? WHERE seller_id="+uId;
+                if(isValidName(shopNameTField.getText()) && isValidName(localityTField.getText())&&isValidName(districtTField.getText())&&isValidName(stateTField.getText())&&isValidName(pinTField.getText())){
+                    PreparedStatement ps=conn.prepareStatement(updateSql);
+                    ps.setString(1,shopNameTField.getText());
+                    ps.setString(2,stateTField.getText());
+                    ps.setString(3,districtTField.getText());
+                    ps.setString(4,localityTField.getText());
+                    ps.setString(5,pinTField.getText());
+                    int rs=ps.executeUpdate();
+                    if (rs!=0){
+                        System.out.print("shop section updated");
+                }
+            }
+                else{
+                    throw(new SQLException());
+                }
+                
+            }
+           
+            
+          conn.close();  
+        }
+        catch(SQLException e){
+            System.out.print(e);
+        }
+        
     }//GEN-LAST:event_updateBtnActionPerformed
 
     /**
@@ -284,22 +357,16 @@ public class VendorProfile extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VendorProfile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VendorProfile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VendorProfile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(VendorProfile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new VendorProfile().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new VendorProfile().setVisible(true);
         });
     }
 
@@ -356,4 +423,19 @@ private void fillLabels() throws SQLException {
     }
     
 }
+    private boolean isValidEmail(String email) {
+        Pattern VALID_EMAIL_ADDRESS_REGEX
+                = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
+        return matcher.find();
+    }
+
+    private boolean isValidName(String name) {
+        return !name.equals("");
+    }
+    private boolean isValidPhone(String number) {
+        String regex = "[0-9]+";
+        return number.matches(regex) && number.length() == 10;
+    }
+   
 }
