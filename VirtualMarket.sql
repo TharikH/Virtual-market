@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 5.0.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Dec 05, 2020 at 12:29 PM
--- Server version: 10.4.13-MariaDB
--- PHP Version: 7.2.32
+-- Generation Time: Dec 06, 2020 at 07:34 PM
+-- Server version: 10.4.14-MariaDB
+-- PHP Version: 7.2.34
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -20,6 +20,26 @@ SET time_zone = "+00:00";
 --
 -- Database: `VirtualMarket`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cart`
+--
+
+CREATE TABLE `cart` (
+  `user_id` int(11) NOT NULL,
+  `stock_id` int(11) NOT NULL,
+  `no.s` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `cart`
+--
+
+INSERT INTO `cart` (`user_id`, `stock_id`, `no.s`) VALUES
+(2, 1, 2),
+(1, 3, 2);
 
 -- --------------------------------------------------------
 
@@ -132,17 +152,19 @@ CREATE TABLE `user` (
   `uniqueID` varchar(15) NOT NULL,
   `phone` varchar(10) NOT NULL,
   `cust_or_sell` varchar(1) NOT NULL,
-  `balance` float NOT NULL DEFAULT 0
+  `balance` float NOT NULL DEFAULT 0,
+  `IMG` longblob DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `name`, `password`, `email`, `document`, `uniqueID`, `phone`, `cust_or_sell`, `balance`) VALUES
-(1, 'qwerty', 'Qwerty@123', 'qwert@g.com', 'Pan-card', '98765432102', '9876543210', 's', 0),
-(2, 'raju', 'Raju@123', 'raju@g.com', 'Pan-card', '123456789098', '9876543212', 'c', 0),
-(3, 'Muhammed', 'Muhd@123', 'muhd@g.com', 'pan-card', '1121131145', '9874322501', 's', 0);
+INSERT INTO `user` (`id`, `name`, `password`, `email`, `document`, `uniqueID`, `phone`, `cust_or_sell`, `balance`, `IMG`) VALUES
+(1, 'qwerty', 'Qwerty@123', 'qwert@g.com', 'Pan-card', '98765432102', '9876543210', 's', 0, NULL),
+(2, 'raju', 'Raju@123', 'raju@g.com', 'Pan-card', '123456789098', '9876543212', 'c', 0, NULL),
+(3, 'Muhammed', 'Muhd@123', 'muhd@g.com', 'pan-card', '1121131145', '9874322501', 's', 0, NULL),
+(4, 'arjun', 'Aa@1aaaa', 'a@gmail.com', 'Aadhar', '453225646787', '7765432114', 's', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -172,6 +194,12 @@ CREATE TABLE `virtual_transaction` (
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `cart`
+--
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`stock_id`);
 
 --
 -- Indexes for table `image`
@@ -244,7 +272,7 @@ ALTER TABLE `stock`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `virtual_transaction`
