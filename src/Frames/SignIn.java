@@ -205,6 +205,7 @@ public class SignIn extends javax.swing.JFrame {
                 rs = stm.executeQuery();
                 if (rs.next()) {
                     if (rs.getString("cust_or_sell").equals("c")) {
+                        System.out.print(rs.getString("id"));
                         CustomerProfile login = new CustomerProfile(rs.getString("id"));
                         login.setVisible(true);
                         login.pack();

@@ -16,7 +16,7 @@ public class QuantitySpecifier extends javax.swing.JFrame {
     /**
      * Creates new form QuantitySpecifier
      */
-    private String type,stock_id="1",uid;
+    private String type,stock_id="1",uid,prod_id;
     float rateval;
     private ImageIcon format = null;
     public QuantitySpecifier() {
@@ -45,6 +45,7 @@ public class QuantitySpecifier extends javax.swing.JFrame {
             PreparedStatement stm=con.prepareStatement(sql);
             ResultSet rs=stm.executeQuery();
             if(rs.next()){
+                prod_id=rs.getString("product_id");
                 name.setText(rs.getString("product_name").toUpperCase());
                 stock.setText("Stock :"+rs.getString("availability"));
                 rate.setText("Rate  :"+rs.getString("sell_rate"));
@@ -113,6 +114,11 @@ public class QuantitySpecifier extends javax.swing.JFrame {
         });
 
         but.setText("jButton1");
+        but.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                butActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(1, 1, 1));
@@ -132,13 +138,12 @@ public class QuantitySpecifier extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(rate, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(stock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())
+                        .addComponent(stock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(29, 29, 29)
-                        .addComponent(qty)
-                        .addContainerGap())))
+                        .addComponent(qty)))
+                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -192,6 +197,34 @@ public class QuantitySpecifier extends javax.swing.JFrame {
         int val=Integer.parseInt(qty.getText());
         total.setText("Total :"+String.valueOf(val*rateval)+"Rs");
     }//GEN-LAST:event_qtyActionPerformed
+
+    private void butActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butActionPerformed
+        // TODO add your handling code her
+        try{
+            Connection conn=new DbConnect().connect();
+            String sql="INSERT INTO `cart`(`user_id`, `stock_id`, `product_id`, `no.s`) VALUES (?,?,?,?)";
+            if(qty.getText().isEmpty()){
+                System.out.print("invalid input");
+            }
+            else{
+                PreparedStatement ps=conn.prepareStatement(sql);
+                ps.setInt(1,Integer.parseInt(uid));
+                ps.setInt(2,Integer.parseInt(stock_id));
+                ps.setInt(3,Integer.parseInt(prod_id));
+                ps.setInt(4,Integer.parseInt(qty.getText()));
+                int rs=ps.executeUpdate();
+                if (rs!=0){
+                  System.out.print("added to cart");
+                }
+                conn.close();
+            }
+            
+            
+        }
+        catch(Exception e){
+            System.out.print(e);
+        }
+    }//GEN-LAST:event_butActionPerformed
 
     /**
      * @param args the command line arguments
