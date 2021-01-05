@@ -541,8 +541,9 @@ public class StockPage extends javax.swing.JFrame{
         // TODO add your handling code here:
         if (index!=-1) throw( new NullPointerException());
         if(nameTField.getText().equals("")||catTField.getText().equals("")||stockTField.getText().equals("")||buyTField.getText().equals("")||sellTField.getText().equals(""))
+        {   System.out.print("haakdf");
             throw(new NullPointerException());
-
+        }
         else{
             if(pimage==null){
                 //System.out.print(imageLabel.getIcon());
@@ -566,7 +567,6 @@ public class StockPage extends javax.swing.JFrame{
         
         int tempStock=Integer.parseInt(stockTField.getText());
         try{
-        if(addStockTField.getText().equals(""))
             tempStock+=Integer.parseInt(addStockTField.getText());
         }
         catch(NumberFormatException e){
@@ -595,6 +595,11 @@ public class StockPage extends javax.swing.JFrame{
         if (index==-1)throw( new NullPointerException());
         deleteDb(index);
         products.remove(index);
+        int i=0;
+        for(ProductRow prod:products){
+            prod.setIndex(i);
+            i++;
+        }
         repaintPanel();
         resetBtnActionPerformed();
     }

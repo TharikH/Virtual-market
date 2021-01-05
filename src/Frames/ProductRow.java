@@ -125,6 +125,10 @@ public void setProdName(String name){
     prodName.setText(name);
     
 }
+public void setIndex(int val){
+    this.index=val;
+    
+}
 public void setProdCat(String val){
     prodCat.setText(val);
 }

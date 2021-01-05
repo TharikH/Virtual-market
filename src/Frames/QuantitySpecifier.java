@@ -16,7 +16,7 @@ public class QuantitySpecifier extends javax.swing.JFrame {
     /**
      * Creates new form QuantitySpecifier
      */
-    private String type,stock_id="1",uid,prod_id;
+    private String type,stock_id="1",uid;
     float rateval;
     private ImageIcon format = null;
     public QuantitySpecifier() {
@@ -45,7 +45,6 @@ public class QuantitySpecifier extends javax.swing.JFrame {
             PreparedStatement stm=con.prepareStatement(sql);
             ResultSet rs=stm.executeQuery();
             if(rs.next()){
-                prod_id=rs.getString("product_id");
                 name.setText(rs.getString("product_name").toUpperCase());
                 stock.setText("Stock :"+rs.getString("availability"));
                 rate.setText("Rate  :"+rs.getString("sell_rate"));
@@ -210,7 +209,6 @@ public class QuantitySpecifier extends javax.swing.JFrame {
                 PreparedStatement ps=conn.prepareStatement(sql);
                 ps.setInt(1,Integer.parseInt(uid));
                 ps.setInt(2,Integer.parseInt(stock_id));
-                ps.setInt(3,Integer.parseInt(prod_id));
                 ps.setInt(4,Integer.parseInt(qty.getText()));
                 int rs=ps.executeUpdate();
                 if (rs!=0){
