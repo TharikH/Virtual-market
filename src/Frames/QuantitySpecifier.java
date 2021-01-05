@@ -202,6 +202,7 @@ public class QuantitySpecifier extends javax.swing.JFrame {
     }//GEN-LAST:event_qtyActionPerformed
 
     private void butActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butActionPerformed
+
         // TODO add your handling code here:
         try{
             Connection con=new DbConnect().connect();
@@ -216,6 +217,31 @@ public class QuantitySpecifier extends javax.swing.JFrame {
             this.dispose();
         }catch(SQLException e){
             System.out.println(e.getMessage());
+        }
+        // TODO add your handling code her
+        try{
+            Connection conn=new DbConnect().connect();
+            String sql="INSERT INTO `cart`(`user_id`, `stock_id`, `product_id`, `no.s`) VALUES (?,?,?,?)";
+            if(qty.getText().isEmpty()){
+                System.out.print("invalid input");
+            }
+            else{
+                PreparedStatement ps=conn.prepareStatement(sql);
+                ps.setInt(1,Integer.parseInt(uid));
+                ps.setInt(2,Integer.parseInt(stock_id));
+                ps.setInt(4,Integer.parseInt(qty.getText()));
+                int rs=ps.executeUpdate();
+                if (rs!=0){
+                  System.out.print("added to cart");
+                }
+                conn.close();
+            }
+            
+            
+        }
+        catch(Exception e){
+            System.out.print(e);
+
         }
     }//GEN-LAST:event_butActionPerformed
 

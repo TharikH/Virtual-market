@@ -14,20 +14,35 @@ import javax.swing.ImageIcon;
  * @author aswin
  */
 public class ProductRow extends javax.swing.JPanel{
-    public ProductRow(StockPage parent,int prodId,int index,String name,String cat,String stock,String buy,String sell,ImageIcon img){
+    public ProductRow(StockPage parent,int index,String name,String cat,String stock,String buy,String sell){
+        initComponents(name,cat,stock,sell);
+        this.parent=parent;
+        this.index=index;
+        this.buyPrice=Float.valueOf(buy);  
+    }
+    public ProductRow(StockPage parent,int prodId,int index,String name,String cat,String stock,String buy,String sell,byte[] img){
+        this(parent,index,name,cat,stock,buy,sell);
+        this.prodId=prodId;
+        if(img==null)
+            this.img=null;
+        else
+            this.img=img;
+    }
+    /* public ProductRow(TestStockPage parent,int index,String name,String cat,String stock,String buy,String sell,ImageIcon img){
+        //this(parent,index,name,cat,stock,buy,sell,img);
      initComponents(name,cat,stock,sell);
-     this.prodId=prodId;
-     this.parent=parent;
      this.index=index;
      this.buyPrice=Float.valueOf(buy);
      this.img=img;
-    }
+     this.parent1=parent;
+    }*/
     //Variable Declaration
     private int index;
     private StockPage parent;
+    private TestStockPage parent1;
     private int prodId;
     private float buyPrice;
-    private ImageIcon img;
+    private byte[] img;
      private javax.swing.JLabel prodCat;
     private javax.swing.JLabel prodName;
     private javax.swing.JLabel prodPrice;
@@ -48,23 +63,15 @@ public class ProductRow extends javax.swing.JPanel{
         prodPrice = new javax.swing.JLabel();
         prodUpdateBtn = new javax.swing.JButton();
       setBackground(new java.awt.Color(204, 195, 187));
-
         prodName.setText(name);
-
         prodCat.setText(cat);
-
         prodStock.setText(stock);
-
         prodPrice.setText(sell);
-
         prodUpdateBtn.setText("Edit");
-        prodUpdateBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                parent.setEdit(index);
-                //prodUpdateBtnActionPerformed(evt);
-            }         
+        prodUpdateBtn.addActionListener((java.awt.event.ActionEvent evt) -> {
+            parent.setEdit(index);
+            //prodUpdateBtnActionPerformed(evt);
         });
-
         javax.swing.GroupLayout productRowLayout = new javax.swing.GroupLayout(this);
         setLayout(productRowLayout);
         productRowLayout.setHorizontalGroup(
@@ -112,9 +119,36 @@ public String getProdId(){
     return String.valueOf(prodId);
 }
 public Image getImage() throws Exception{
-    return img.getImage();
+    return new ImageIcon(img).getImage();
 }
-}
-        
+public void setProdName(String name){
+    prodName.setText(name);
     
+}
+public void setIndex(int val){
+    this.index=val;
+    
+}
+public void setProdCat(String val){
+    prodCat.setText(val);
+}
+public void setProdStock(String val){
+    prodStock.setText(val);
+}
+public void setProdSell(String val){
+     prodPrice.setText(val);
+}
+public void setProdBuy(String val){
+    buyPrice=Float.parseFloat(val);
+}
+public void setProdId(String val){
+    prodId=Integer.parseInt(val);
+}
+public void setImage(byte[] val){
+    img=val;
+}
+public byte[] getImageArray(){
+    return img;
+}
 
+}

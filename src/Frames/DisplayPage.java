@@ -26,7 +26,7 @@ import virtual.market.DbConnect;
  *
  * @author tharikh
  */
-public class DisplaPage extends javax.swing.JFrame implements ActionListener {
+public class DisplayPage extends javax.swing.JFrame implements ActionListener {
 
     /**
      * Creates new form DisplaPage
@@ -37,13 +37,13 @@ public class DisplaPage extends javax.swing.JFrame implements ActionListener {
     int s = 0;
     byte[] pimage = null;
 
-    public DisplaPage() {
+    public DisplayPage() {
         initComponents();
         fetchData();
         setCat();
     }
 
-    public DisplaPage(String id, String type) {
+    public DisplayPage(String id, String type) {
         this();
         this.id = id;
         this.type = type;
@@ -371,20 +371,21 @@ public class DisplaPage extends javax.swing.JFrame implements ActionListener {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DisplaPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DisplayPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DisplaPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DisplayPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DisplaPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DisplayPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DisplaPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DisplayPage.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DisplaPage().setVisible(true);
+                new DisplayPage().setVisible(true);
             }
         });
     }
