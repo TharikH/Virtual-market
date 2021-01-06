@@ -95,7 +95,7 @@ public class cart1 extends javax.swing.JFrame implements ActionListener {
             jl.setHorizontalAlignment(SwingConstants.CENTER);
             jl.setVerticalAlignment(SwingConstants.CENTER);
 
-            jb.setActionCommand("buy-" + stock_id+"-"+id);
+            jb.setActionCommand("buy-" + stock_id+"-"+id+"-"+String.valueOf(num)+"-"+String.valueOf(total));
             cartbut.setActionCommand("remo-" + stock_id+"-"+id);
             desc.setActionCommand("desc-" + stock_id+"-"+id);
 //            jl.setBackground(Color.red);
@@ -166,7 +166,7 @@ public class cart1 extends javax.swing.JFrame implements ActionListener {
     
     public void actionPerformed(ActionEvent e) {
         String evt=e.getActionCommand();
-        String arr[]=new String[3];
+        String arr[]=new String[5];
         arr=evt.split("-");
         if(arr[0].equals("desc")){
             Description ob=new Description(arr[1]);
@@ -195,9 +195,31 @@ public class cart1 extends javax.swing.JFrame implements ActionListener {
             
         }
         else if( arr[0].equals("buy")){
-            QuantitySpecifier ob=new QuantitySpecifier(arr[0],arr[1],id);
-            ob.setVisible(true);
-            ob.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+            try{
+            Connection conn=new DbConnect().connect();
+            System.out.print("a");
+            String sql="insert into `transactions`(`user_id`, `stock_id`,  `no.s`, `price`) values(?,?,?,?)";
+            PreparedStatement stm=conn.prepareStatement(sql);
+            stm.setString(1,arr[1]);
+            stm.setString(2,arr[2]);
+            stm.setString(3,arr[3]);
+            stm.setString(4,arr[4]);
+            int rs= stm.executeUpdate();
+             sql="delete from cart where stock_id=? and user_id=?";
+            stm=conn.prepareStatement(sql);
+            stm.setString(1,arr[1]);
+            stm.setString(2,arr[2]);
+            rs= stm.executeUpdate();
+            conn.close();
+            displaypanel.removeAll();
+            displaypanel.revalidate();
+            displaypanel.repaint();
+            fetchData();
+            
+            }
+             catch(SQLException el){
+            System.out.println(el.getMessage());
+        }
         }
     }
 
@@ -243,6 +265,11 @@ public class cart1 extends javax.swing.JFrame implements ActionListener {
         jLabel3.setText("<label>");
 
         jButton2.setText("Buy all");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -319,6 +346,36 @@ public class cart1 extends javax.swing.JFrame implements ActionListener {
         this.dispose();
         new CustomerProfile().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        try {
+            Connection conn = new DbConnect().connect();
+            String sql = "select * from stock natural join cart where user_id = ? ";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setString(1,id);
+            ResultSet rs = stm.executeQuery();
+            while(rs.next()){
+                sql= "insert into `transactions`(`user_id`, `stock_id`,  `no.s`, `price`) values(?,?,?,?)";
+                stm = conn.prepareStatement(sql);
+                stm.setString(1,id);
+                stm.setString(2,rs.getString("stock_id"));
+                stm.setString(3,rs.getString("no.s"));
+                stm.setString(4,String.valueOf(rs.getInt("no.s")*rs.getInt("sell_rate")));
+                int r= stm.executeUpdate();
+            }
+            sql= "truncate table cart";
+            stm = conn.prepareStatement(sql);
+             int r= stm.executeUpdate();
+            conn.close();
+            displaypanel.removeAll();
+            displaypanel.revalidate();
+            displaypanel.repaint();
+            fetchData();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
