@@ -483,7 +483,10 @@ profileUpdate();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        Order temp=new Order(this.id);
+        temp.setVisible(true);
+        temp.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
