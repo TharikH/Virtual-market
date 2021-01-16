@@ -39,7 +39,7 @@ public class ProductRow extends javax.swing.JPanel{
     //Variable Declaration
     private int index;
     private StockPage parent;
-    private TestStockPage parent1;
+//    private TestStockPage parent1;
     private int prodId;
     private float buyPrice;
     private byte[] img;

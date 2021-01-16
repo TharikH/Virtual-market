@@ -414,7 +414,7 @@ public class VendorPage extends javax.swing.JFrame {
         // TODO add your handling code here:
         StockPage login=new StockPage(storeId,uId);
         login.setVisible(true);
-        login.pack();
+//        login.pack();
         login.setLocationRelativeTo(null);
 //        login.addWindowListener(new WindowClose());
         login.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);

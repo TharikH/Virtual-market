@@ -492,7 +492,7 @@ profileUpdate();
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        Cart1 cart=new Cart1(id," ");
+        cart1 cart=new cart1(id," ");
         cart.setVisible(true);
         cart.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_jButton3ActionPerformed
