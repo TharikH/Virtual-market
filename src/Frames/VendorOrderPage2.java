@@ -29,11 +29,10 @@ import virtual.market.DbConnect;
  */
 public class VendorOrderPage2 extends javax.swing.JFrame implements ActionListener {
 
-    /**
-     * Creates new form cart1
-     */
-     String id="1", type;
-     
+    //id of the shop
+     String id="2";
+     //id of customer to display his products
+     int user_id;
     private ImageIcon format = null;
     String fname = null;
     int s = 0;
@@ -47,9 +46,8 @@ public class VendorOrderPage2 extends javax.swing.JFrame implements ActionListen
         //fetchData();
     }
     
-    public VendorOrderPage2(String id, String type) {
+    public VendorOrderPage2(String id) {
         this.id = id;
-        this.type = type;
         initComponents();
         //fetchData();
     }
@@ -156,11 +154,15 @@ public class VendorOrderPage2 extends javax.swing.JFrame implements ActionListen
 //        }
         displaypanel.setPreferredSize(new Dimension(805, i));
     }
-
+        //all products of the selected customer
     private void fetchData(int val) {
         try {
+            user_id=arrId.get(val);
+            System.out.print("user_id:");
+            System.out.print(user_id);
             Connection conn = new DbConnect().connect();
-            String sql = "select * from stock natural join product natural join view_transaction where shop_id =? and user_id=? and status='pending'" ;
+            
+            String sql = "select * from stock natural join product natural join view_transaction where shop_id =? and user_id=? and status='0'" ;
             PreparedStatement stm = conn.prepareStatement(sql);
             stm.setInt(1,Integer.parseInt(id));
             stm.setInt(2, arrId.get(val));
@@ -173,7 +175,7 @@ public class VendorOrderPage2 extends javax.swing.JFrame implements ActionListen
             System.out.println(e.getMessage());
         }
     }
-    
+    //action performed on the product card
     public void actionPerformed(ActionEvent e) {
         String evt=e.getActionCommand();
         String arr[]=new String[3];
@@ -182,12 +184,38 @@ public class VendorOrderPage2 extends javax.swing.JFrame implements ActionListen
             Description ob=new Description(arr[1]);
             ob.setVisible(true);
             ob.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+        //when reject button is clicked in product
         }else if(arr[0].equals("remo")){
             try{
              System.out.println("here");  
             Connection conn=new DbConnect().connect();
             //String sql="delete from virtual_order where stock_id=? and user_id=?";
-            String sql_transact="update virtual_transaction set status='failed' where id=(select order_id from virtual_order where stock_id=? and user_id=?)";
+            String sql_transact="update virtual_transaction set status='-1'  where stock_id=? and user_id=?";
+            PreparedStatement stm_transact=conn.prepareCall(sql_transact);
+            stm_transact.setInt(1,Integer.parseInt(arr[1]));
+            stm_transact.setInt(2,Integer.parseInt(arr[2]));
+            System.out.println(stm_transact);
+            int rs= stm_transact.executeUpdate();
+            conn.close();
+            displaypanel.removeAll();
+            displaypanel.revalidate();
+            displaypanel.repaint();
+            fetchData(buyers.getSelectedIndex());
+            
+            }
+             catch(SQLException el){
+            System.out.println(el.getMessage());
+        }
+            
+            
+        }
+        //when accept button is clicked in product
+        else if( arr[0].equals("buy")){
+            try{
+             System.out.println("here");  
+            Connection conn=new DbConnect().connect();
+            //String sql="delete from virtual_order where stock_id=? and user_id=?";
+            String sql_transact="update virtual_transaction set status='1'  where stock_id=? and user_id=?";
             PreparedStatement stm_transact=conn.prepareCall(sql_transact);
             stm_transact.setInt(1,Integer.parseInt(arr[1]));
             stm_transact.setInt(2,Integer.parseInt(arr[2]));
@@ -208,13 +236,6 @@ public class VendorOrderPage2 extends javax.swing.JFrame implements ActionListen
              catch(SQLException el){
             System.out.println(el.getMessage());
         }
-            
-            
-        }
-        else if( arr[0].equals("buy")){
-            QuantitySpecifier ob=new QuantitySpecifier(arr[0],arr[1],id);
-            ob.setVisible(true);
-            ob.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
         }
     }
 
@@ -266,6 +287,11 @@ public class VendorOrderPage2 extends javax.swing.JFrame implements ActionListen
         });
 
         rejectAllBtn.setText("Reject All");
+        rejectAllBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rejectAllBtnActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -374,7 +400,7 @@ public class VendorOrderPage2 extends javax.swing.JFrame implements ActionListen
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void buyersActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buyersActionPerformed
         // TODO add your handling code here:
         System.out.print(buyers.getSelectedIndex());
@@ -386,8 +412,61 @@ public class VendorOrderPage2 extends javax.swing.JFrame implements ActionListen
 
     private void acceptAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acceptAllBtnActionPerformed
         // TODO add your handling code here:
+        try{
+             System.out.println("here");  
+            Connection conn=new DbConnect().connect();
+            //String sql="delete from virtual_order where stock_id=? and user_id=?";
+            String sql_transact="update virtual_transaction set status='1'  where transaction_id=(select order_id from view_transaction where shop_id=? and user_id=?)";
+            PreparedStatement stm_transact=conn.prepareCall(sql_transact);
+            stm_transact.setInt(1,Integer.parseInt(id));
+            stm_transact.setInt(2,user_id);
+            //PreparedStatement stm=conn.prepareStatement(sql);
+           // stm.setInt(1,Integer.parseInt(arr[1]));
+            //stm.setInt(2,Integer.parseInt(arr[2]));
+            System.out.println(stm_transact);
+            //System.out.println(arr[2]);
+            int rs= stm_transact.executeUpdate();
+            conn.close();
+            displaypanel.removeAll();
+            displaypanel.revalidate();
+            displaypanel.repaint();
+            fetchData(buyers.getSelectedIndex());
+            
+            }
+             catch(SQLException el){
+            System.out.println(el.getMessage());
+        }
         
     }//GEN-LAST:event_acceptAllBtnActionPerformed
+    //to Accept all products
+    private void rejectAllBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rejectAllBtnActionPerformed
+        // TODO add your handling code here:
+        try{
+             System.out.println("here");  
+            Connection conn=new DbConnect().connect();
+            //String sql="delete from virtual_order where stock_id=? and user_id=?";
+            String sql_transact="update virtual_transaction set status='-1'  where transaction_id=(select order_id from view_transaction where shop_id=? and user_id=?)";
+            PreparedStatement stm_transact=conn.prepareCall(sql_transact);
+            stm_transact.setInt(1,Integer.parseInt(id));
+            stm_transact.setInt(2,user_id);
+            
+            //PreparedStatement stm=conn.prepareStatement(sql);
+           // stm.setInt(1,Integer.parseInt(arr[1]));
+            //stm.setInt(2,Integer.parseInt(arr[2]));
+            System.out.println(stm_transact);
+            //System.out.println(arr[2]);
+            int rs= stm_transact.executeUpdate();
+            conn.close();
+            displaypanel.removeAll();
+            displaypanel.revalidate();
+            displaypanel.repaint();
+            fetchData(buyers.getSelectedIndex());
+            
+            }
+             catch(SQLException el){
+            System.out.println(el.getMessage());
+        }
+    }//GEN-LAST:event_rejectAllBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -448,7 +527,7 @@ private void setCat(){
         arrId.add(-1);
         try{
             Connection con=new DbConnect().connect();
-            String sql="SELECT name,id FROM user WHERE id IN (select DISTINCT user_id from view_transaction where shop_id=? and status='pending') ";
+            String sql="SELECT name,id FROM user WHERE id IN (select DISTINCT user_id from view_transaction where shop_id=? and status='0') ";
             PreparedStatement stm=con.prepareStatement(sql);
             stm.setString(1, id);
             ResultSet rs=stm.executeQuery();
