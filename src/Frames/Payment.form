@@ -49,12 +49,14 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jButton2" alignment="0" min="-2" pref="109" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel3" alignment="0" min="-2" pref="154" max="-2" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
-                          <Component id="balance" min="-2" pref="138" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                              <Component id="jButton2" alignment="0" max="32767" attributes="0"/>
+                              <Component id="balance" alignment="0" pref="138" max="32767" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" max="-2" attributes="0"/>
                           <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -73,7 +75,7 @@
                                           <Group type="102" alignment="0" attributes="0">
                                               <Component id="jLabel4" min="-2" pref="105" max="-2" attributes="0"/>
                                               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                                              <Component id="jTextField1" min="-2" pref="212" max="-2" attributes="0"/>
+                                              <Component id="cost" min="-2" pref="212" max="-2" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="1" attributes="0">
                                               <Component id="jLabel2" min="-2" pref="87" max="-2" attributes="0"/>
@@ -90,13 +92,13 @@
                                                   <Group type="102" alignment="0" attributes="0">
                                                       <EmptySpace max="32767" attributes="0"/>
                                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                                          <Component id="jTextField3" min="-2" pref="212" max="-2" attributes="0"/>
+                                                          <Component id="gst" min="-2" pref="212" max="-2" attributes="0"/>
                                                           <Component id="total" alignment="0" min="-2" pref="212" max="-2" attributes="0"/>
                                                       </Group>
                                                   </Group>
                                                   <Group type="102" alignment="0" attributes="0">
                                                       <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-                                                      <Component id="jTextField2" min="-2" pref="212" max="-2" attributes="0"/>
+                                                      <Component id="delivery" min="-2" pref="212" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                           </Group>
@@ -137,17 +139,17 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel4" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
-                              <Component id="jTextField1" min="-2" pref="35" max="-2" attributes="0"/>
+                              <Component id="cost" min="-2" pref="35" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel5" min="-2" pref="31" max="-2" attributes="0"/>
-                              <Component id="jTextField2" min="-2" pref="35" max="-2" attributes="0"/>
+                              <Component id="delivery" min="-2" pref="35" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel6" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
-                              <Component id="jTextField3" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
+                              <Component id="gst" alignment="3" min="-2" pref="35" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -240,6 +242,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jButton2">
           <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Ubuntu" size="12" style="0"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Add Money"/>
           </Properties>
         </Component>
@@ -254,12 +259,12 @@
             <Property name="text" type="java.lang.String" value="Cost"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField1">
+        <Component class="javax.swing.JTextField" name="cost">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField1ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="costActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel5">
@@ -273,12 +278,12 @@
             <Property name="text" type="java.lang.String" value="Delivery"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField2">
+        <Component class="javax.swing.JTextField" name="delivery">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField2ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="deliveryActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel6">
@@ -289,12 +294,12 @@
             <Property name="text" type="java.lang.String" value="Other fee"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField3">
+        <Component class="javax.swing.JTextField" name="gst">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextField3ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="gstActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">

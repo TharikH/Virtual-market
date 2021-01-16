@@ -171,7 +171,7 @@ public class QuantitySpecifier extends javax.swing.JFrame {
                     .addComponent(stock, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(qty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(qty, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -201,16 +201,39 @@ public class QuantitySpecifier extends javax.swing.JFrame {
         
     }//GEN-LAST:event_qtyActionPerformed
 
+    private void singleBuy(){
+        try{
+            Connection con=new DbConnect().connect();
+            String sql="insert into transactions values (?,?,?,?)";
+            PreparedStatement stm=con.prepareStatement(sql);
+            stm.setString(1, this.uid);
+            stm.setString(2, this.stock_id);
+            stm.setString(3, this.num);
+            stm.setFloat(4, this.rateval);
+            int rs=stm.executeUpdate();
+            if(rs>0){
+                new Payment(this.uid).setVisible(true);
+                con.close();
+                this.dispose();
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
     private void butActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_butActionPerformed
 
         // TODO add your handling code here:
+        num=qty.getText();
+        if(this.type.equals("buy")){
+            singleBuy();
+            return;
+        }
         try{
             Connection con=new DbConnect().connect();
             String sql="insert into cart values(?,?,?)";
             PreparedStatement stm=con.prepareStatement(sql);
             stm.setString(1,uid);
             stm.setString(2,pid);
-            num=qty.getText();
             stm.setString(3,num);
             int rs=stm.executeUpdate();
             con.close();
@@ -219,30 +242,30 @@ public class QuantitySpecifier extends javax.swing.JFrame {
             System.out.println(e.getMessage());
         }
         // TODO add your handling code her
-        try{
-            Connection conn=new DbConnect().connect();
-            String sql="INSERT INTO `cart`(`user_id`, `stock_id`, `product_id`, `no.s`) VALUES (?,?,?,?)";
-            if(qty.getText().isEmpty()){
-                System.out.print("invalid input");
-            }
-            else{
-                PreparedStatement ps=conn.prepareStatement(sql);
-                ps.setInt(1,Integer.parseInt(uid));
-                ps.setInt(2,Integer.parseInt(stock_id));
-                ps.setInt(4,Integer.parseInt(qty.getText()));
-                int rs=ps.executeUpdate();
-                if (rs!=0){
-                  System.out.print("added to cart");
-                }
-                conn.close();
-            }
-            
-            
-        }
-        catch(Exception e){
-            System.out.print(e);
-
-        }
+//        try{
+//            Connection conn=new DbConnect().connect();
+//            String sql="INSERT INTO `cart`(`user_id`, `stock_id`, `product_id`, `no.s`) VALUES (?,?,?,?)";
+//            if(qty.getText().isEmpty()){
+//                System.out.print("invalid input");
+//            }
+//            else{
+//                PreparedStatement ps=conn.prepareStatement(sql);
+//                ps.setInt(1,Integer.parseInt(uid));
+//                ps.setInt(2,Integer.parseInt(stock_id));
+//                ps.setInt(4,Integer.parseInt(num));
+//                int rs=ps.executeUpdate();
+//                if (rs!=0){
+//                  System.out.print("added to cart");
+//                }
+//                conn.close();
+//            }
+//            
+//            
+//        }
+//        catch(Exception e){
+//            System.out.print(e);
+//
+//        }
     }//GEN-LAST:event_butActionPerformed
 
     /**

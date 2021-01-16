@@ -30,6 +30,7 @@ public class Image extends javax.swing.JFrame {
    Connection conn=null;
     public Image() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
     public Image(String id){
         this();

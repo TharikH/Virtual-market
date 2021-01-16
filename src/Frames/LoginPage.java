@@ -20,7 +20,8 @@ public class LoginPage extends javax.swing.JFrame {
      * Creates new form LoginPage
      */
     public LoginPage(){
-        initComponents();        
+        initComponents();   
+        this.setLocationRelativeTo(null);
     }
     private void gotoLogin(String name){
         try{

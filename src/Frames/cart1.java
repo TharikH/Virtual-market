@@ -41,13 +41,13 @@ public class cart1 extends javax.swing.JFrame implements ActionListener {
     
     public cart1() {
         initComponents();
-        fetchData();
     }
     
     public cart1(String id, String type) {
         this();
         this.id = id;
         this.type = type;
+        fetchData();
 
     }
 
@@ -197,11 +197,11 @@ public class cart1 extends javax.swing.JFrame implements ActionListener {
         else if( arr[0].equals("buy")){
             try{
             Connection conn=new DbConnect().connect();
-            System.out.print("a");
+            System.out.println("cart id :"+this.id);
             String sql="insert into `transactions`(`user_id`, `stock_id`,  `no.s`, `price`) values(?,?,?,?)";
             PreparedStatement stm=conn.prepareStatement(sql);
-            stm.setString(1,arr[1]);
-            stm.setString(2,arr[2]);
+            stm.setString(1,arr[2]);
+            stm.setString(2,arr[1]);
             stm.setString(3,arr[3]);
             stm.setString(4,arr[4]);
             int rs= stm.executeUpdate();
@@ -211,10 +211,12 @@ public class cart1 extends javax.swing.JFrame implements ActionListener {
             stm.setString(2,arr[2]);
             rs= stm.executeUpdate();
             conn.close();
-            displaypanel.removeAll();
-            displaypanel.revalidate();
-            displaypanel.repaint();
-            fetchData();
+//            displaypanel.removeAll();
+//            displaypanel.revalidate();
+//            displaypanel.repaint();
+//            fetchData();
+new Payment(this.id).setVisible(true);
+            this.dispose();
             
             }
              catch(SQLException el){
@@ -368,10 +370,11 @@ public class cart1 extends javax.swing.JFrame implements ActionListener {
             stm = conn.prepareStatement(sql);
              int r= stm.executeUpdate();
             conn.close();
-            displaypanel.removeAll();
-            displaypanel.revalidate();
-            displaypanel.repaint();
-            fetchData();
+//            displaypanel.removeAll();
+//            displaypanel.revalidate();
+//            displaypanel.repaint();
+//            fetchData();
+                new Payment(this.id).setVisible(true);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }

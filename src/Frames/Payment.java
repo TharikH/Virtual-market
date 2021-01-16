@@ -23,9 +23,43 @@ public class Payment extends javax.swing.JFrame {
     public Payment() {
         initComponents();
         this.setLocationRelativeTo(null);
-        generateCaptcha();
     }
-
+    public Payment(String id){
+        this();
+        this.userid=id;
+        generateCaptcha();
+        initialize();
+    }
+    private void initialize(){
+        try{
+            Connection con=new DbConnect().connect();
+            Double cost=0.0,gst=0.0,delivery=0.0,balance=0.0;
+        
+            String sql="select * from transactions inner join user on transactions.user_id =user.id where user.id=?";
+            PreparedStatement stm=con.prepareStatement(sql);
+            stm.setString(1,this.userid);
+            
+            ResultSet rs=stm.executeQuery();
+            
+            while(rs.next()){
+                balance=rs.getDouble("balance");
+                cost+=rs.getFloat("price")*rs.getInt("no.s");
+            }
+            gst=(cost * 0.18);
+            if(cost < 500){
+                delivery=40.0;
+            }
+            this.balance.setText(String.valueOf(balance));
+            this.cost.setText(String.valueOf(cost));
+            this.gst.setText(String.valueOf(gst));
+            this.delivery.setText(String.valueOf(delivery));
+            this.total.setText(String.valueOf(cost+delivery+gst));
+            
+            System.out.println("ID is : "+this.userid);
+        }catch(SQLException e){
+            System.out.println(e.getMessage());
+        }
+    }
     private void generateCaptcha(){
         String rand;
         Random random = new Random();
@@ -37,6 +71,28 @@ public class Payment extends javax.swing.JFrame {
         rand = new String(word);
         this.rand=rand;
         captchatext.setText(rand);
+    }
+    private void transactionFailed(){
+        Connection con=null;
+        try{
+            con=new DbConnect().connect();
+            String sqlinsert="insert into cart (select user_id,stock_id,`no.s` from transactions where user_id=?)",
+                    sqldelete="delete from transactions where user_id=?";
+            PreparedStatement stm=con.prepareStatement(sqlinsert);
+            stm.setString(1,this.userid);
+            int rs=stm.executeUpdate();
+            if(rs >0){
+                System.out.println("Success");
+                PreparedStatement stm1=con.prepareStatement(sqldelete);
+                stm1.setString(1, this.userid);
+                int rs1=stm1.executeUpdate();
+                if(rs1 >0){
+                    System.out.println("Delettion okay!");
+                }
+            }
+        }catch(SQLException ex){
+            System.out.println(ex.getMessage());
+        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -55,11 +111,11 @@ public class Payment extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        cost = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        delivery = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        gst = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         total = new javax.swing.JTextField();
         captchatext = new javax.swing.JLabel();
@@ -102,16 +158,17 @@ public class Payment extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(1, 1, 1));
         jLabel3.setText("Balance");
 
+        jButton2.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         jButton2.setText("Add Money");
 
         jLabel4.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(1, 1, 1));
         jLabel4.setText("Cost");
 
-        jTextField1.setEditable(false);
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        cost.setEditable(false);
+        cost.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                costActionPerformed(evt);
             }
         });
 
@@ -119,20 +176,20 @@ public class Payment extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(1, 1, 1));
         jLabel5.setText("Delivery");
 
-        jTextField2.setEditable(false);
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        delivery.setEditable(false);
+        delivery.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                deliveryActionPerformed(evt);
             }
         });
 
         jLabel6.setForeground(new java.awt.Color(1, 1, 1));
         jLabel6.setText("Other fee");
 
-        jTextField3.setEditable(false);
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        gst.setEditable(false);
+        gst.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                gstActionPerformed(evt);
             }
         });
 
@@ -174,12 +231,13 @@ public class Payment extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(balance, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(balance, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel9)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -195,7 +253,7 @@ public class Payment extends javax.swing.JFrame {
                                         .addGroup(jPanel1Layout.createSequentialGroup()
                                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGap(40, 40, 40)
-                                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(cost, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGap(58, 58, 58)
@@ -209,11 +267,11 @@ public class Payment extends javax.swing.JFrame {
                                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                        .addComponent(gst, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                         .addComponent(total, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                                     .addGap(40, 40, 40)
-                                                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                                    .addComponent(delivery, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(132, 132, 132)
                                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -239,15 +297,15 @@ public class Payment extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cost, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(delivery, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(gst, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -295,22 +353,59 @@ public class Payment extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_totalActionPerformed
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
+    private void gstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gstActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_gstActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void deliveryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deliveryActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_deliveryActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void costActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_costActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_costActionPerformed
 
     private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordActionPerformed
 
+    private void setTransaction(Connection con) throws SQLException{
+        
+        String sql="update user set balance=balance-? where id=?";
+        PreparedStatement stm=con.prepareStatement(sql);
+        stm.setString(1, total.getText());
+        stm.setString(2,this.userid);
+        int rs=stm.executeUpdate();
+        if(rs >0){
+            System.out.println("balance updated!");
+            String sql2="insert into virtual_transaction (user_id,stock_id,`no.s`,price) (select * from  transactions where user_id=?)";
+            PreparedStatement stm2=con.prepareStatement(sql2);
+            stm2.setString(1, this.userid);
+            int rs2=stm2.executeUpdate();
+            if(rs2 >0){
+                System.out.println("Successful insertion to virtual transaction");
+                String sql3="delete from transactions where user_id=?";
+                PreparedStatement stm3=con.prepareStatement(sql3);
+                stm3.setString(1, this.userid);
+                int rs3=stm3.executeUpdate();
+                if(rs3 >0){
+//                    String sql4="update stock set availability=availability-"
+                    System.out.println("Delete success!");
+                }
+                else{
+                    throw new SQLException();
+                }
+            }
+            else{
+                throw new SQLException();
+            }
+        }
+        else{
+            throw new SQLException();
+        }
+        
+        
+    }
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         Connection con=null;
@@ -333,8 +428,20 @@ public class Payment extends javax.swing.JFrame {
         }
         try{
            con=new DbConnect().connect();
+           String passwordsql="select * from user where id=? and password=?";
+           PreparedStatement stmpass=con.prepareStatement(passwordsql);
+           stmpass.setString(1, this.userid);
+           stmpass.setString(2,new String(password.getPassword()));
+           
+           ResultSet rspass=stmpass.executeQuery();
+           if(!rspass.next()){
+               JOptionPane.showMessageDialog(this,"Wrong password!");
+               return;
+           }
+           
            con.setAutoCommit(false);
-           String sql="";
+           
+           setTransaction(con);
            
            con.commit();
         }catch(SQLException e){
@@ -394,6 +501,9 @@ public class Payment extends javax.swing.JFrame {
     private javax.swing.JTextField balance;
     private javax.swing.JTextField captcha;
     private javax.swing.JLabel captchatext;
+    private javax.swing.JTextField cost;
+    private javax.swing.JTextField delivery;
+    private javax.swing.JTextField gst;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckBox1;
@@ -407,9 +517,6 @@ public class Payment extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JPasswordField password;
     private javax.swing.JTextField total;
     // End of variables declaration//GEN-END:variables

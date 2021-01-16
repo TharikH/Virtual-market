@@ -83,6 +83,7 @@ public class SignIn extends javax.swing.JFrame {
             }
         });
 
+        password.setText("Raju@123");
         password.setToolTipText("password");
         password.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         password.addActionListener(new java.awt.event.ActionListener() {
@@ -99,6 +100,7 @@ public class SignIn extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(1, 1, 1));
         jLabel3.setText("Email");
 
+        email.setText("raju@g.com");
         email.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         email.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
 
@@ -217,13 +219,14 @@ public class SignIn extends javax.swing.JFrame {
                         login.setVisible(true);
                         login.pack();
                         login.setLocationRelativeTo(null);
-                        login.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);  
+                        login.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE); 
+                        this.dispose();
                     }
                 } else {
+                    System.out.println(emailtext +" "+pass);
                     error = "invalid credentials";
                 }
                 con.close();
-                this.dispose();
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }

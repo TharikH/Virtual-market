@@ -31,7 +31,7 @@ public class DisplayPage extends javax.swing.JFrame implements ActionListener {
     /**
      * Creates new form DisplaPage
      */
-    String id="1", type;
+    String id="3", type;
     private ImageIcon format = null;
     String fname = null;
     int s = 0;
@@ -39,14 +39,15 @@ public class DisplayPage extends javax.swing.JFrame implements ActionListener {
 
     public DisplayPage() {
         initComponents();
-        fetchData();
-        setCat();
     }
 
     public DisplayPage(String id, String type) {
         this();
         this.id = id;
         this.type = type;
+        fetchData();
+        setCat();
+        this.setLocationRelativeTo(null);
 
     }
     private void setCat(){
@@ -90,7 +91,7 @@ public class DisplayPage extends javax.swing.JFrame implements ActionListener {
             JLabel jl = new JLabel();
             JButton jb = new JButton("Buy now");
             JLabel jname = new JLabel(product_name.toUpperCase(), SwingConstants.CENTER);
-            JButton cartbut = new JButton("Add to cart");
+            JButton cartbut = new JButton("Add Cart");
             JLabel jrate = new JLabel(String.valueOf(rate) + "Rs per item/kg", SwingConstants.CENTER);
             jl.setPreferredSize(new Dimension(250, 180));
             jb.setPreferredSize(new Dimension(100, 50));
@@ -99,8 +100,9 @@ public class DisplayPage extends javax.swing.JFrame implements ActionListener {
             jrate.setPreferredSize(new Dimension(200, 30));
             desc.setPreferredSize(new Dimension(200, 30));
 
-            jrate.setFont(new Font("Serif", Font.BOLD, 17));
-            jname.setFont(new Font("Serif", Font.BOLD, 17));
+            jrate.setFont(new Font("Dialog", Font.BOLD, 17));
+            jname.setFont(new Font("Dialog", Font.BOLD, 17));
+//            cartbut.setFont(new Font("Ubuntu",Font.BOLD,13));
 
             Image img2 = mm.getScaledInstance(250, 180, Image.SCALE_SMOOTH);
             ImageIcon image = new ImageIcon(img2);
@@ -206,6 +208,7 @@ public class DisplayPage extends javax.swing.JFrame implements ActionListener {
         jButton2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         displaypanel = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -283,12 +286,26 @@ public class DisplayPage extends javax.swing.JFrame implements ActionListener {
 
         jScrollPane1.setViewportView(displaypanel);
 
+        jPanel2.setBackground(new java.awt.Color(0, 128, 255));
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 77, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jScrollPane1)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -296,7 +313,9 @@ public class DisplayPage extends javax.swing.JFrame implements ActionListener {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -397,6 +416,7 @@ public class DisplayPage extends javax.swing.JFrame implements ActionListener {
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField searchtext;
     // End of variables declaration//GEN-END:variables
