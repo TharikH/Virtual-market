@@ -99,11 +99,13 @@ public class Payment extends javax.swing.JFrame {
                 int rs1=stm1.executeUpdate();
                 if(rs1 >0){
                     System.out.println("Delettion okay!");
+                    JOptionPane.showMessageDialog(this,"Payment Failed!");
                 }
             }
         }catch(SQLException ex){
             System.out.println(ex.getMessage());
         }
+        this.dispose();
     }
     
 
@@ -174,6 +176,11 @@ public class Payment extends javax.swing.JFrame {
 
         jButton2.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
         jButton2.setText("Add Money");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel4.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(1, 1, 1));
@@ -299,7 +306,7 @@ public class Payment extends javax.swing.JFrame {
                                     .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
                                     .addComponent(jCheckBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
                                     .addComponent(cod, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                        .addGap(0, 112, Short.MAX_VALUE))
+                        .addGap(0, 121, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(48, 48, 48)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -518,16 +525,19 @@ public class Payment extends javax.swing.JFrame {
            setTransaction(con);
            
            con.commit();
+           JOptionPane.showMessageDialog(this,"Payment Sucess!");
         }catch(SQLException e){
             System.out.println(e.getMessage());
             try{
                 con.rollback();
+                JOptionPane.showMessageDialog(this,"Payment Failed!");
             }catch(SQLException ex){
                 System.out.println(ex.getMessage());
             }
         }finally{
             try{
                 con.setAutoCommit(true);
+                this.dispose();
             }catch(SQLException ex){
                 System.out.println(ex.getMessage());
             }
@@ -535,6 +545,10 @@ public class Payment extends javax.swing.JFrame {
         
         
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        new AddMoney(this.userid).setVisible(true);
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments

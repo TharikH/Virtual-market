@@ -194,8 +194,10 @@ public class SignIn extends javax.swing.JFrame {
                 pass = new String(password.getPassword());
         if (!isValidEmail(emailtext)) {
             error = "please provide correct email";
+            JOptionPane.showMessageDialog(this,error);
         } else if (!isValidPassword(pass)) {
             error = "please provide correct password";
+            JOptionPane.showMessageDialog(this,error);
         } else {
             try {
                 Connection con = new DbConnect().connect();
@@ -227,6 +229,7 @@ public class SignIn extends javax.swing.JFrame {
                 } else {
                     System.out.println(emailtext +" "+pass);
                     error = "invalid credentials";
+                    JOptionPane.showMessageDialog(this,error);
                 }
                 con.close();
             } catch (SQLException e) {
@@ -234,7 +237,7 @@ public class SignIn extends javax.swing.JFrame {
             }
 
         }
-        JOptionPane.showMessageDialog(this,error);
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Random;
+import javax.swing.JOptionPane;
 import virtual.market.DbConnect;
 
 /**
@@ -23,13 +24,16 @@ public class AddMoney extends javax.swing.JFrame {
     String rand="",id="1";
     public AddMoney() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
         generateCaptcha();
     }
     public AddMoney(String id){
+        this();
         this.id=id;
     }
     private void verify(){
-        if(!amount.getText().equals("") && !debit.getText().equals("") && captcha.getText().equals(this.rand)){
+        if(!amount.getText().equals("") && !debit.getText().equals("") && captcha.getText().equals(this.rand) && agree.isSelected()){
             float val=Float.parseFloat(amount.getText());
             try{
                 Connection con=new DbConnect().connect();
@@ -38,6 +42,8 @@ public class AddMoney extends javax.swing.JFrame {
                 int rs=stm.executeUpdate();
                 if(rs > 0){
                     System.out.println("OKAY");
+                    JOptionPane.showMessageDialog(this,"Sucess!");
+                    this.dispose();
                 }else{
                     System.out.println(" not OKAY");
                 }
@@ -46,6 +52,9 @@ public class AddMoney extends javax.swing.JFrame {
             catch(SQLException e){
                 System.out.println(e.getMessage());
             }
+        }
+        else{
+            JOptionPane.showMessageDialog(this,"Payment failed!");
         }
     }
     /**
@@ -62,7 +71,7 @@ public class AddMoney extends javax.swing.JFrame {
         debit = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        agree = new javax.swing.JCheckBox();
         captchatext = new javax.swing.JLabel();
         captcha = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
@@ -86,15 +95,21 @@ public class AddMoney extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("jButton1");
+        jButton1.setText("ADD MONEY");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 0, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(1, 1, 1));
         jLabel1.setText("Amount");
 
-        jCheckBox1.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
-        jCheckBox1.setForeground(new java.awt.Color(0, 0, 0));
-        jCheckBox1.setText("Agree to payment policies");
+        agree.setFont(new java.awt.Font("Ubuntu", 0, 12)); // NOI18N
+        agree.setForeground(new java.awt.Color(0, 0, 0));
+        agree.setText("Agree to payment policies");
 
         captchatext.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         captchatext.setForeground(new java.awt.Color(1, 1, 1));
@@ -142,7 +157,7 @@ public class AddMoney extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(agree, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(96, 96, 96))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
@@ -180,7 +195,7 @@ public class AddMoney extends javax.swing.JFrame {
                     .addComponent(captcha, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(captchatext, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
-                .addComponent(jCheckBox1)
+                .addComponent(agree)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
@@ -220,6 +235,10 @@ public class AddMoney extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_debitActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -256,13 +275,13 @@ public class AddMoney extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox agree;
     private javax.swing.JTextField amount;
     private javax.swing.JTextField captcha;
     private javax.swing.JLabel captchatext;
     private javax.swing.JTextField cvv;
     private javax.swing.JTextField debit;
     private javax.swing.JButton jButton1;
-    private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;

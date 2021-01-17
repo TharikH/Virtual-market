@@ -322,16 +322,22 @@ public class SignUp extends javax.swing.JFrame {
                 nametext = name.getText();
         if (!isValidName(nametext)) {
             error = "please provide a name";
+            JOptionPane.showMessageDialog(this,error);
         } else if (!isValidEmail(emailtext)) {
             error = "please provide correct email";
+            JOptionPane.showMessageDialog(this,error);
         } else if (!isValidPhone(phonetext)) {
             error = "please provide valid number";
+            JOptionPane.showMessageDialog(this,error);
         } else if (!isValidPassword(pass)) {
             error = "password must be atleast 1 digit,1 uppercase,1 lowercase,1 special_char ,no white space atleast 8 char";
+            JOptionPane.showMessageDialog(this,error);
         } else if (!pass.equals(conf)) {
             error = "password doesnt match";
+            JOptionPane.showMessageDialog(this,error);
         } else if (!isValidId(id)) {
             error = "please provide valid id";
+            JOptionPane.showMessageDialog(this,error);
         } else {
             
             String sql = "insert into user values(null,?,?,?,?,?,?,?,0,NULL)";
@@ -358,22 +364,23 @@ public class SignUp extends javax.swing.JFrame {
                 }
                 else{
                     error="Server error";
+                    JOptionPane.showMessageDialog(this,error);
                 }
                 //next page
-                con.close();
-                SignIn login = new SignIn(type);
-                login.setVisible(true);
-                login.pack();
-                login.setLocationRelativeTo(null);
-//        login.addWindowListener(new WindowClose());
-                login.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
-                this.dispose();
+//                con.close();
+//                SignIn login = new SignIn(type);
+//                login.setVisible(true);
+//                login.pack();
+//                login.setLocationRelativeTo(null);
+////        login.addWindowListener(new WindowClose());
+//                login.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+//                this.dispose();
             } catch (SQLException e) {
                 System.out.println(e.getMessage());
             }
         }
 //        System.out.println(pass);
-        JOptionPane.showMessageDialog(this,error);
+        
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
