@@ -41,6 +41,7 @@ public class Cart1 extends javax.swing.JFrame implements ActionListener {
     
     public Cart1() {
         initComponents();
+        this.setLocationRelativeTo(null);
         fetchData();
     }
     
@@ -76,7 +77,7 @@ public class Cart1 extends javax.swing.JFrame implements ActionListener {
             JButton cartbut = new JButton("Remove ");
             float total = num*rate;
             sum+=total;
-            JLabel jrate = new JLabel(String.valueOf(rate) + "Rs/- X " +String.valueOf(num) + "=" + String.valueOf(total) , SwingConstants.CENTER);
+            JLabel jrate = new JLabel(String.valueOf(rate) + " X " +String.valueOf(num) + "=" + String.valueOf(total)+"Rs/-" , SwingConstants.CENTER);
             jl.setPreferredSize(new Dimension(250, 180));
             jb.setPreferredSize(new Dimension(100, 50));
             cartbut.setPreferredSize(new Dimension(100, 50));

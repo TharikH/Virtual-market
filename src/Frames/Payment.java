@@ -25,19 +25,21 @@ public class Payment extends javax.swing.JFrame {
     String pass,rand,userid="1";
     public Payment() {
         initComponents();
+        this.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.addWindowListener(new WindowAdapter(){
             public void windowClosing(WindowEvent e){
                 transactionFailed();
             }
         });
-        generateCaptcha();
-        initialize();
+//        generateCaptcha();
+//        initialize();
     }
     public Payment(String id){
         this();
         this.userid=id;
-        
+        generateCaptcha();
+        initialize();
     }
     private void initialize(){
         try{
@@ -387,7 +389,27 @@ public class Payment extends javax.swing.JFrame {
     private void passwordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordActionPerformed
-
+    private String updateStock(Connection con,String id,int qty) throws SQLException{
+        String sql="select * from stock natural join product where stock_id="+id;
+        PreparedStatement stm=con.prepareStatement(sql);
+        ResultSet rs=stm.executeQuery();
+        if(rs.next()){
+            int stockavail=rs.getInt("availability");
+            if(stockavail > qty){
+                String sql2="update stock set availability=availability-"+qty+" where stock_id="+id;
+                PreparedStatement stm2=con.prepareStatement(sql2);
+                int rs2=stm2.executeUpdate();
+                if(rs2 > 0){
+                    return "";
+                }
+            }
+            else{
+                return rs.getString("product_name")+" ";
+                
+            }
+        }
+        return "stockid - "+id+" not found";
+    } 
     private void setTransaction(Connection con) throws SQLException{
         
         String sql="update user set balance=balance-? where id=?";
@@ -407,7 +429,16 @@ public class Payment extends javax.swing.JFrame {
             stm2.setString(1, this.userid);
             int rs2=stm2.executeUpdate();
             if(rs2 >0){
-                System.out.println("Successful insertion to virtual transaction");
+                String stockreduce="select * from transactions where user_id="+this.userid;
+                PreparedStatement stmstock=con.prepareStatement(stockreduce);
+                ResultSet rsstock=stmstock.executeQuery();
+                int cond=1;
+                String errorstring="";
+                while(rsstock.next()){
+                    errorstring+=updateStock(con,rsstock.getString("stock_id"),rsstock.getInt("no.s"));
+                }
+                if(errorstring.equals("")){
+                    System.out.println("Successful insertion to virtual transaction");
                 String sql3="delete from transactions where user_id=?";
                 PreparedStatement stm3=con.prepareStatement(sql3);
                 stm3.setString(1, this.userid);
@@ -432,6 +463,12 @@ public class Payment extends javax.swing.JFrame {
                 else{
                     throw new SQLException();
                 }
+                }
+                else{
+                    JOptionPane.showMessageDialog(this,"OUT of STOCK!\n"+errorstring);
+                    throw new SQLException("OUT of Stock");
+                }
+                
             }
             else{
                 throw new SQLException();

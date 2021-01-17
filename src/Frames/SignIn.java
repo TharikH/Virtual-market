@@ -10,6 +10,7 @@ import classes.WindowClose;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.sql.*;
+import javax.swing.JOptionPane;
 import virtual.market.DbConnect;
 
 /**
@@ -213,6 +214,7 @@ public class SignIn extends javax.swing.JFrame {
                         login.pack();
                         login.setLocationRelativeTo(null);
                         login.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+                        this.dispose();
                     }
                     else if(rs.getString("cust_or_sell").equals("s")){
                        VendorPage login = new VendorPage(rs.getString("id"));
@@ -232,7 +234,7 @@ public class SignIn extends javax.swing.JFrame {
             }
 
         }
-        errortext.setText(error);
+        JOptionPane.showMessageDialog(this,error);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

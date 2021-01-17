@@ -49,7 +49,7 @@ public class Order extends javax.swing.JFrame {
             data[i][1]=rs.getString("product_name");
             data[i][2]=rs.getString("no.s");
             data[i][3]=rs.getString("price");
-            data[i][4]=rs.getInt("status")== 0?"pending":rs.getInt("status")==1?"complete":"COD";
+            data[i][4]=rs.getInt("status")== 0?"Pending":rs.getInt("status")==1?"Complete":rs.getInt("status") == 2?"COD":"Failed";
             i++;
         }
         DefaultTableModel model = new DefaultTableModel(data, colname);

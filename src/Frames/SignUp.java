@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import virtual.market.DbConnect;
 import java.sql.*;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -372,7 +373,7 @@ public class SignUp extends javax.swing.JFrame {
             }
         }
 //        System.out.println(pass);
-        errorlabel.setText(error);
+        JOptionPane.showMessageDialog(this,error);
 
     }//GEN-LAST:event_jButton1ActionPerformed
 

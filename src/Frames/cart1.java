@@ -41,6 +41,7 @@ public class cart1 extends javax.swing.JFrame implements ActionListener {
     
     public cart1() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
     
     public cart1(String id, String type) {
@@ -95,7 +96,7 @@ public class cart1 extends javax.swing.JFrame implements ActionListener {
             jl.setHorizontalAlignment(SwingConstants.CENTER);
             jl.setVerticalAlignment(SwingConstants.CENTER);
 
-            jb.setActionCommand("buy-" + stock_id+"-"+id+"-"+String.valueOf(num)+"-"+String.valueOf(total));
+            jb.setActionCommand("buy-" + stock_id+"-"+id+"-"+String.valueOf(num)+"-"+String.valueOf(rate));
             cartbut.setActionCommand("remo-" + stock_id+"-"+id);
             desc.setActionCommand("desc-" + stock_id+"-"+id);
 //            jl.setBackground(Color.red);
@@ -252,6 +253,7 @@ new Payment(this.id).setVisible(true);
         jLabel1.setText("MY CART");
 
         jButton1.setText("HOME");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -267,6 +269,7 @@ new Payment(this.id).setVisible(true);
         jLabel3.setText("<label>");
 
         jButton2.setText("Buy all");
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -363,7 +366,7 @@ new Payment(this.id).setVisible(true);
                 stm.setString(1,id);
                 stm.setString(2,rs.getString("stock_id"));
                 stm.setString(3,rs.getString("no.s"));
-                stm.setString(4,String.valueOf(rs.getInt("no.s")*rs.getInt("sell_rate")));
+                stm.setString(4,String.valueOf(rs.getInt("sell_rate")));
                 int r= stm.executeUpdate();
             }
             sql= "truncate table cart";
