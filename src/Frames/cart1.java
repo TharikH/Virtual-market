@@ -423,6 +423,11 @@ new Payment(this.id).setVisible(true);
             }
             
                 if(count==0){
+                   
+             sql = "select * from stock natural join cart where user_id = ? ";
+             stm = conn.prepareStatement(sql);
+            stm.setString(1,id);
+             rs = stm.executeQuery(); 
                    while(rs.next()){
                 sql= "insert into `transactions`(`user_id`, `stock_id`,  `no.s`, `price`) values(?,?,?,?)";
                 stm = conn.prepareStatement(sql);
