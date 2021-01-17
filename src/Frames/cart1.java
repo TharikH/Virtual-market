@@ -47,6 +47,7 @@ public class cart1 extends javax.swing.JFrame implements ActionListener {
         this();
         this.id = id;
         this.type = type;
+        this.setLocationRelativeTo(null);
         fetchData();
 
     }
@@ -95,7 +96,7 @@ public class cart1 extends javax.swing.JFrame implements ActionListener {
             jl.setHorizontalAlignment(SwingConstants.CENTER);
             jl.setVerticalAlignment(SwingConstants.CENTER);
 
-            jb.setActionCommand("buy-" + stock_id+"-"+id+"-"+String.valueOf(num)+"-"+String.valueOf(total));
+            jb.setActionCommand("buy-" + stock_id+"-"+id+"-"+String.valueOf(num)+"-"+String.valueOf(rate));
             cartbut.setActionCommand("remo-" + stock_id+"-"+id);
             desc.setActionCommand("desc-" + stock_id+"-"+id);
 //            jl.setBackground(Color.red);
@@ -149,12 +150,12 @@ public class cart1 extends javax.swing.JFrame implements ActionListener {
 //        }
         displaypanel.setPreferredSize(new Dimension(805, i));
     }
-      private boolean checkStock(String stock_id) {
+      private boolean checkStock(String stock_id, String nos) {
         int avail=0;
         try {
             
             Connection conn = new DbConnect().connect();
-            String sql = "select availability from stock where stock_id = ?";
+            String sql = "select availability from stock  where stock_id = ?";
             PreparedStatement stm = conn.prepareStatement(sql);
             stm.setString(1,stock_id);
             ResultSet rs = stm.executeQuery();
@@ -167,7 +168,7 @@ public class cart1 extends javax.swing.JFrame implements ActionListener {
          catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        if(avail>0){
+        if(avail>Integer.parseInt(nos)){
                 return true;
             }
             else{
@@ -219,7 +220,7 @@ public class cart1 extends javax.swing.JFrame implements ActionListener {
             
         }
         else if( arr[0].equals("buy")){
-            if(checkStock(arr[1])){
+            if(checkStock(arr[1],arr[3])){
               
             try{
             Connection conn=new DbConnect().connect();
@@ -282,6 +283,7 @@ new Payment(this.id).setVisible(true);
         jLabel1.setText("MY CART");
 
         jButton1.setText("HOME");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -297,6 +299,7 @@ new Payment(this.id).setVisible(true);
         jLabel3.setText("<label>");
 
         jButton2.setText("Buy all");
+        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -382,7 +385,7 @@ new Payment(this.id).setVisible(true);
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         String os="";
-        int idd=0,count=0,count1=0;
+        int idd=0,count=0,count1=0,num=0;
         try {
             Connection conn = new DbConnect().connect();
             String sql = "select * from stock natural join cart where user_id = ? ";
@@ -390,7 +393,15 @@ new Payment(this.id).setVisible(true);
             stm.setString(1,id);
             ResultSet rs = stm.executeQuery();
             while(rs.next()){
-                if(!(checkStock(id))){
+                sql="select no.s from cart where stock_id= ?";
+                    stm = conn.prepareStatement(sql);
+                    stm.setString(1,rs.getString("stock_id"));
+                    rs = stm.executeQuery();
+                    if(rs.first()){
+                         num= rs.getInt("no.s");
+                    }
+                    
+                if(!(checkStock(id,String.valueOf(num)))){
                     count++;
                      sql="select product_id from stock where stock_id= ?";
                     stm = conn.prepareStatement(sql);
@@ -428,7 +439,7 @@ new Payment(this.id).setVisible(true);
             }
                
                   new Payment(this.id).setVisible(true);  
-                
+                 this.dispose();
                
             }
         else{
