@@ -376,7 +376,7 @@ new Payment(this.id).setVisible(true);
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         this.dispose();
-//        new CustomerProfile().setVisible(true);
+        new CustomerProfile().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -390,22 +390,9 @@ new Payment(this.id).setVisible(true);
             stm.setString(1,id);
             ResultSet rs = stm.executeQuery();
             while(rs.next()){
-                if(checkStock(id)){
-                sql= "insert into `transactions`(`user_id`, `stock_id`,  `no.s`, `price`) values(?,?,?,?)";
-                stm = conn.prepareStatement(sql);
-                stm.setString(1,id);
-                stm.setString(2,rs.getString("stock_id"));
-                stm.setString(3,rs.getString("no.s"));
-                stm.setString(4,String.valueOf(rs.getInt("no.s")*rs.getInt("sell_rate")));
-                int r= stm.executeUpdate();
-                sql= "DELETE from cart where user_id = ? and stock_id = ?";
-                stm = conn.prepareStatement(sql);
-                stm.setString(1,id);
-                stm.setString(2,rs.getString("stock_id"));
-                 r= stm.executeUpdate();
-            }
-                else{
-                    sql="select product_id from stock where stock_id= ?";
+                if(!(checkStock(id))){
+                    count++;
+                     sql="select product_id from stock where stock_id= ?";
                     stm = conn.prepareStatement(sql);
                     stm.setString(1,rs.getString("stock_id"));
                     rs = stm.executeQuery();
@@ -421,10 +408,32 @@ new Payment(this.id).setVisible(true);
                     if(rs.first()){
                         os+=rs.getString("product_name")+",";
                     }
-                    count1++;
                 }
-               count++;
             }
+            
+                if(count==0){
+                   while(rs.next()){
+                sql= "insert into `transactions`(`user_id`, `stock_id`,  `no.s`, `price`) values(?,?,?,?)";
+                stm = conn.prepareStatement(sql);
+                stm.setString(1,id);
+                stm.setString(2,rs.getString("stock_id"));
+                stm.setString(3,rs.getString("no.s"));
+                stm.setString(4,String.valueOf(rs.getInt("sell_rate")));
+                int r= stm.executeUpdate();
+                sql= "DELETE from cart where user_id = ? and stock_id = ?";
+                stm = conn.prepareStatement(sql);
+                stm.setString(1,id);
+                stm.setString(2,rs.getString("stock_id"));
+                 r= stm.executeUpdate();
+            }
+               
+                  new Payment(this.id).setVisible(true);  
+                
+               
+            }
+        else{
+                JOptionPane.showMessageDialog(null, os+ " are Out of Stock");
+                }
              
             
             conn.close();
@@ -432,14 +441,7 @@ new Payment(this.id).setVisible(true);
 //            displaypanel.revalidate();
 //            displaypanel.repaint();
 //            fetchData();
-                if(count1==0){
-                new Payment(this.id).setVisible(true);}
                 
-                else{
-                    
-                    JOptionPane.showMessageDialog(null, os+ " are Out of Stock");
-                
-                }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
