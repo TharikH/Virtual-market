@@ -30,7 +30,7 @@ import virtual.market.DbConnect;
 public class VendorOrderPage2 extends javax.swing.JFrame implements ActionListener {
 
     //id of the shop
-     String id="2";
+     String id="3";
      //id of customer to display his products
      int user_id;
     private ImageIcon format = null;
@@ -49,6 +49,7 @@ public class VendorOrderPage2 extends javax.swing.JFrame implements ActionListen
     public VendorOrderPage2(String id) {
         this.id = id;
         initComponents();
+        setCat();
         //fetchData();
     }
 

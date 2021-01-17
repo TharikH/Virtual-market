@@ -77,11 +77,11 @@ public class VendorPage extends javax.swing.JFrame {
         jButton11 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        stockPageBtn = new javax.swing.JButton();
+        orderPageBtn = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
+        profilePageBtn = new javax.swing.JButton();
+        logoutBtn = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
 
@@ -200,11 +200,10 @@ public class VendorPage extends javax.swing.JFrame {
                             .addComponent(updatebut)
                             .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGap(31, 31, 31)
@@ -272,20 +271,20 @@ public class VendorPage extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jButton2.setBackground(new java.awt.Color(70, 162, 254));
-        jButton2.setText("MY STOCK");
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        stockPageBtn.setBackground(new java.awt.Color(70, 162, 254));
+        stockPageBtn.setText("MY STOCK");
+        stockPageBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        stockPageBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                stockPageBtnActionPerformed(evt);
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(70, 162, 254));
-        jButton3.setText("ORDERS");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        orderPageBtn.setBackground(new java.awt.Color(70, 162, 254));
+        orderPageBtn.setText("ORDERS");
+        orderPageBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                orderPageBtnActionPerformed(evt);
             }
         });
 
@@ -297,19 +296,19 @@ public class VendorPage extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setBackground(new java.awt.Color(70, 162, 254));
-        jButton5.setText("PROFILE");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
+        profilePageBtn.setBackground(new java.awt.Color(70, 162, 254));
+        profilePageBtn.setText("PROFILE");
+        profilePageBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
+                profilePageBtnActionPerformed(evt);
             }
         });
 
-        jButton9.setBackground(new java.awt.Color(70, 162, 254));
-        jButton9.setText("LOGOUT");
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
+        logoutBtn.setBackground(new java.awt.Color(70, 162, 254));
+        logoutBtn.setText("LOGOUT");
+        logoutBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
+                logoutBtnActionPerformed(evt);
             }
         });
 
@@ -335,15 +334,15 @@ public class VendorPage extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(stockPageBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(profilePageBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(orderPageBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(57, 57, 57)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32))
         );
@@ -354,14 +353,14 @@ public class VendorPage extends javax.swing.JFrame {
                 .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(stockPageBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(orderPageBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(65, 65, 65)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(profilePageBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24))
         );
 
@@ -410,7 +409,7 @@ public class VendorPage extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void stockPageBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stockPageBtnActionPerformed
         // TODO add your handling code here:
         StockPage login=new StockPage(storeId,uId);
         login.setVisible(true);
@@ -418,24 +417,24 @@ public class VendorPage extends javax.swing.JFrame {
         login.setLocationRelativeTo(null);
 //        login.addWindowListener(new WindowClose());
         login.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_stockPageBtnActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void orderPageBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orderPageBtnActionPerformed
         // TODO add your handling code here:
-         StockPage login=new StockPage(storeId,uId);
-        login.setVisible(true);
+         VendorOrderPage2 order=new VendorOrderPage2(storeId);
+        order.setVisible(true);
 //        login.pack();
-        login.setLocationRelativeTo(null);
+        order.setLocationRelativeTo(null);
 //        login.addWindowListener(new WindowClose());
-        login.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
-    }//GEN-LAST:event_jButton3ActionPerformed
+        order.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
+    }//GEN-LAST:event_orderPageBtnActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+    private void profilePageBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profilePageBtnActionPerformed
         // TODO add your handling code here:
         VendorProfile vp=new VendorProfile(id);
         vp.setVisible(true);
@@ -443,11 +442,11 @@ public class VendorPage extends javax.swing.JFrame {
         vp.setLocationRelativeTo(null);
 //        login.addWindowListener(new WindowClose());
         vp.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
-    }//GEN-LAST:event_jButton5ActionPerformed
+    }//GEN-LAST:event_profilePageBtnActionPerformed
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+    private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton9ActionPerformed
+    }//GEN-LAST:event_logoutBtnActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
@@ -595,13 +594,9 @@ private void profileUpdate(){
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -613,8 +608,12 @@ private void profileUpdate(){
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JButton logoutBtn;
     private javax.swing.JTextField name;
+    private javax.swing.JButton orderPageBtn;
     private javax.swing.JTextField phone;
+    private javax.swing.JButton profilePageBtn;
+    private javax.swing.JButton stockPageBtn;
     private javax.swing.JButton updatebut;
     // End of variables declaration//GEN-END:variables
 private void fillLabels() throws SQLException {
