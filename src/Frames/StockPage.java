@@ -623,18 +623,28 @@ public class StockPage extends javax.swing.JFrame{
         PreparedStatement ps=conn.prepareStatement(checkSql);
         ps.setString(1, pr.getProdName());
         ps.setString(2, pr.getProdCat());
+        System.out.print(ps);
         ResultSet rs=ps.executeQuery();
         if (rs.next()){
+            System.out.print("product exists");
             pr.setProdId(rs.getString("product_id"));
         }
         else
         {
+            System.out.print("product doesn't exists");
             String insertProdSql="INSERT INTO `product`( `product_name`, `category`) VALUES (?,?)" ;
             PreparedStatement ps1=conn.prepareStatement(insertProdSql);
             ps1.setString(1, pr.getProdName());
             ps1.setString(2, pr.getProdCat());
-            rs=ps.executeQuery();
-            pr.setProdId(rs.getString("product_id"));
+            int result=ps1.executeUpdate();
+            if(result==0)
+                throw(new SQLException());
+            else{
+                System.out.print("Item inserted into product table");
+                rs=ps.executeQuery();
+                rs.next();
+                pr.setProdId(rs.getString("product_id"));
+            }
         }
         String insertStockSql="INSERT INTO `stock`( `product_id`, `availability`, `buy_rate`, `sell_rate`, `shop_id`, `img`) VALUES (?,?,?,?,?,?)";
         PreparedStatement ps2=conn.prepareStatement(insertStockSql);

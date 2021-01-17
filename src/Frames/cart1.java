@@ -150,7 +150,31 @@ public class cart1 extends javax.swing.JFrame implements ActionListener {
 //        }
         displaypanel.setPreferredSize(new Dimension(805, i));
     }
-
+      private boolean checkStock(String stock_id) {
+        int avail=0;
+        try {
+            
+            Connection conn = new DbConnect().connect();
+            String sql = "select availability from stock where stock_id = ?";
+            PreparedStatement stm = conn.prepareStatement(sql);
+            stm.setString(1,stock_id);
+            ResultSet rs = stm.executeQuery();
+            if(rs.first()){
+                 avail =rs.getInt("availability");
+            }
+            
+            
+        }
+         catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        if(avail>0){
+                return true;
+            }
+            else{
+                return false;
+            }
+    }
     private void fetchData() {
         try {
             Connection conn = new DbConnect().connect();
@@ -196,6 +220,8 @@ public class cart1 extends javax.swing.JFrame implements ActionListener {
             
         }
         else if( arr[0].equals("buy")){
+            if(checkStock(arr[1])){
+              
             try{
             Connection conn=new DbConnect().connect();
             System.out.println("cart id :"+this.id);
@@ -223,6 +249,10 @@ new Payment(this.id).setVisible(true);
              catch(SQLException el){
             System.out.println(el.getMessage());
         }
+        }
+            else{
+                JOptionPane.showMessageDialog(null, "Out of Stock");
+            }
         }
     }
 
@@ -354,6 +384,8 @@ new Payment(this.id).setVisible(true);
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        String os="";
+        int idd=0,count=0,count1=0;
         try {
             Connection conn = new DbConnect().connect();
             String sql = "select * from stock natural join cart where user_id = ? ";
@@ -361,6 +393,7 @@ new Payment(this.id).setVisible(true);
             stm.setString(1,id);
             ResultSet rs = stm.executeQuery();
             while(rs.next()){
+                if(checkStock(id)){
                 sql= "insert into `transactions`(`user_id`, `stock_id`,  `no.s`, `price`) values(?,?,?,?)";
                 stm = conn.prepareStatement(sql);
                 stm.setString(1,id);
@@ -368,15 +401,43 @@ new Payment(this.id).setVisible(true);
                 stm.setString(3,rs.getString("no.s"));
                 stm.setString(4,String.valueOf(rs.getInt("sell_rate")));
                 int r= stm.executeUpdate();
+                sql= "DELETE from cart where user_id = ? and stock_id = ?";
+                stm = conn.prepareStatement(sql);
+                stm.setString(1,id);
+                stm.setString(2,rs.getString("stock_id"));
+                 r= stm.executeUpdate();
             }
-            sql= "truncate table cart";
-            stm = conn.prepareStatement(sql);
-             int r= stm.executeUpdate();
+                else{
+                    sql="select product_id from stock where stock_id= ?";
+                    stm = conn.prepareStatement(sql);
+                    stm.setString(1,rs.getString("stock_id"));
+                    rs = stm.executeQuery();
+                    if(rs.first()){
+                         idd= rs.getInt("product_id");
+                    }
+                    
+                    
+                    sql="select product_name from product where product_id= ?";
+                    stm = conn.prepareStatement(sql);
+                    stm.setString(1,String.valueOf(idd));
+                    rs=stm.executeQuery();
+                    if(rs.first()){
+                        os+=rs.getString("product_name")+",";
+                    }
+                    count1++;
+                }
+               count++;
+            }
+             if(!(os.equals(""))){
+                    JOptionPane.showMessageDialog(null, os+ " are Out of Stock");
+                }
+            
             conn.close();
 //            displaypanel.removeAll();
 //            displaypanel.revalidate();
 //            displaypanel.repaint();
 //            fetchData();
+                if(count!=count1)
                 new Payment(this.id).setVisible(true);
         } catch (SQLException e) {
             System.out.println(e.getMessage());

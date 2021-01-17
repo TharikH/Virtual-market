@@ -19,7 +19,7 @@ import virtual.market.DbConnect;
  * @author aswin
  */
 public class VendorProfile extends javax.swing.JFrame {
-    String id,uId="",place,name,state,pin,storeName,district,email,contact,document,shopId;
+    String id,uId="",place,name,state,pin,storeName,district,email,contact,document,shopId="";
     /**
      * Creates new form VendorProfile
      */
@@ -293,7 +293,7 @@ public class VendorProfile extends javax.swing.JFrame {
         }
         try{
             Connection conn=new DbConnect().connect();
-            if(uId.equals("")){
+            if(shopId.equals("") || shopId==null){
                String insertSql="INSERT INTO `shop`( `shop_name`, `state`, `district`, `locality`,`seller_id`, `pincode`) VALUES (?,?,?,?,?,?) ";
                 if(isValidName(shopNameTField.getText()) && isValidName(localityTField.getText())&&isValidName(districtTField.getText())&&isValidName(stateTField.getText())&&isValidName(pinTField.getText())){
                     PreparedStatement ps=conn.prepareStatement(insertSql);
