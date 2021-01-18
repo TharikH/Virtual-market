@@ -191,7 +191,7 @@ public class VendorOrderPage2 extends javax.swing.JFrame implements ActionListen
              System.out.println("here");  
             Connection conn=new DbConnect().connect();
             //String sql="delete from virtual_order where stock_id=? and user_id=?";
-            String sql_transact="update virtual_transaction set status='-1'  where stock_id=? and user_id=?";
+            String sql_transact="update virtual_transaction set status='-1'  where stock_id=? and user_id=? and status='0'";
             PreparedStatement stm_transact=conn.prepareCall(sql_transact);
             stm_transact.setInt(1,Integer.parseInt(arr[1]));
             stm_transact.setInt(2,Integer.parseInt(arr[2]));
@@ -216,7 +216,7 @@ public class VendorOrderPage2 extends javax.swing.JFrame implements ActionListen
              System.out.println("here");  
             Connection conn=new DbConnect().connect();
             //String sql="delete from virtual_order where stock_id=? and user_id=?";
-            String sql_transact="update virtual_transaction set status='1'  where stock_id=? and user_id=?";
+            String sql_transact="update virtual_transaction set status='1'  where stock_id=? and user_id=? and status='0'";
             PreparedStatement stm_transact=conn.prepareCall(sql_transact);
             stm_transact.setInt(1,Integer.parseInt(arr[1]));
             stm_transact.setInt(2,Integer.parseInt(arr[2]));
@@ -303,17 +303,18 @@ public class VendorOrderPage2 extends javax.swing.JFrame implements ActionListen
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(105, 105, 105)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(54, 54, 54)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(acceptAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(50, 50, 50)
-                        .addComponent(rejectAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(acceptAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addComponent(rejectAllBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(34, 34, 34))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -328,14 +329,11 @@ public class VendorOrderPage2 extends javax.swing.JFrame implements ActionListen
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(acceptAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(rejectAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(12, 12, 12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(acceptAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(rejectAllBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout displaypanelLayout = new javax.swing.GroupLayout(displaypanel);
@@ -396,7 +394,7 @@ public class VendorOrderPage2 extends javax.swing.JFrame implements ActionListen
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE))
         );
 
         pack();
@@ -417,7 +415,7 @@ public class VendorOrderPage2 extends javax.swing.JFrame implements ActionListen
              System.out.println("here");  
             Connection conn=new DbConnect().connect();
             //String sql="delete from virtual_order where stock_id=? and user_id=?";
-            String sql_transact="update virtual_transaction set status='1'  where transaction_id=(select order_id from view_transaction where shop_id=? and user_id=?)";
+            String sql_transact="update virtual_transaction set status='1'  where transaction_id=(select order_id from view_transaction where shop_id=? and user_id=? and status='0')";
             PreparedStatement stm_transact=conn.prepareCall(sql_transact);
             stm_transact.setInt(1,Integer.parseInt(id));
             stm_transact.setInt(2,user_id);
@@ -446,7 +444,7 @@ public class VendorOrderPage2 extends javax.swing.JFrame implements ActionListen
              System.out.println("here");  
             Connection conn=new DbConnect().connect();
             //String sql="delete from virtual_order where stock_id=? and user_id=?";
-            String sql_transact="update virtual_transaction set status='-1'  where transaction_id=(select order_id from view_transaction where shop_id=? and user_id=?)";
+            String sql_transact="update virtual_transaction set status='-1'  where transaction_id=(select order_id from view_transaction where shop_id=? and user_id=? and status='0')";
             PreparedStatement stm_transact=conn.prepareCall(sql_transact);
             stm_transact.setInt(1,Integer.parseInt(id));
             stm_transact.setInt(2,user_id);

@@ -233,7 +233,7 @@ public class QuantitySpecifier extends javax.swing.JFrame {
             String sql="insert into cart values(?,?,?)";
             PreparedStatement stm=con.prepareStatement(sql);
             stm.setString(1,uid);
-            stm.setString(2,pid);
+            stm.setString(2,stock_id);
             stm.setString(3,num);
             int rs=stm.executeUpdate();
             con.close();
