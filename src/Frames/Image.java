@@ -34,6 +34,7 @@ public class Image extends javax.swing.JFrame {
     }
     public Image(String id){
         this();
+        System.out.print(id);
         this.id=id;
     }
     /**
@@ -156,6 +157,7 @@ myImage=new ImageIcon(imagePath);
             PreparedStatement stm=conn.prepareStatement(sql);
             stm.setBytes(1,pimage);
             stm.setString(2, id);
+            System.out.print(stm);
             if(stm.executeUpdate()>0){
                    JOptionPane.showMessageDialog( this, "Updated","Success", JOptionPane.OK_OPTION);
             }else{

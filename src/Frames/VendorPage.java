@@ -539,7 +539,7 @@ private void profileUpdate(){
     }//GEN-LAST:event_updatebutActionPerformed
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        Frames.Image ob=new Frames.Image();
+        Frames.Image ob=new Frames.Image(this.id);
         ob.setVisible(true);
         ob.setDefaultCloseOperation(this.DISPOSE_ON_CLOSE);
 
